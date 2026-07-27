@@ -18,11 +18,13 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 <template>
   <div>
     <HeroSection />
-    <PublicationsSection />
-    <ParkInCijfersSection />
-    <PodcastsSection />
-    <FotosSection />
-    <MediaSection />
+    <main>
+      <PublicationsSection />
+      <ParkInCijfersSection />
+      <PodcastsSection />
+      <FotosSection />
+      <MediaSection />
+    </main>
 
     <button
       class="back-to-top"

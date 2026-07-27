@@ -45,7 +45,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 <template>
   <section id="park-in-cijfers" class="site-section">
-    <div class="section-inner">
+    <div v-reveal class="section-inner">
       <h2 class="section-title">{{ parkInfographic.title }}</h2>
       <p class="section-lead">{{ parkInfographic.description }}</p>
 

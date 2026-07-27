@@ -45,7 +45,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 <template>
   <section id="fotos" class="site-section">
-    <div class="section-inner">
+    <div v-reveal class="section-inner">
       <h2 class="section-title">Foto's</h2>
       <p class="section-lead">
         Blader door foto's van Park Ouest — het groen, de paden en de mensen die er samenkomen.

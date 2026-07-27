@@ -43,7 +43,7 @@ function onPause() {
 
 <template>
   <section id="podcasts" class="site-section" style="padding-bottom: 7rem;">
-    <div class="section-inner">
+    <div v-reveal class="section-inner">
       <span class="inline-block rounded-full bg-park-amber px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase">
         Listen
       </span>

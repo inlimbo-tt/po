@@ -1,50 +1,109 @@
 <script setup lang="ts">
-import { heroTiles } from '~/data/content'
+import { heroTiles, heroImage } from '~/data/content'
+
+const heroBg = useAsset(heroImage)
 
 function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const spanClasses: Record<string, string> = {
+  publications: 'sm:col-span-2 lg:col-span-2 lg:row-span-2',
+  'park-in-cijfers': 'sm:col-span-2 lg:col-span-2',
+  podcasts: 'lg:col-span-1',
+  fotos: 'lg:col-span-1',
+  media: 'sm:col-span-2 lg:col-span-4',
+}
+
+function isFeature(id: string) {
+  return id === 'publications'
 }
 </script>
 
 <template>
-  <header class="relative min-h-screen">
+  <header class="mx-auto max-w-6xl px-4 pt-10 pb-4 sm:px-6 sm:pt-14 lg:px-8">
+    <div v-reveal class="relative overflow-hidden rounded-3xl shadow-xl">
+      <img
+        :src="heroBg"
+        alt="Buurtbewoners genieten van Park Ouest onder een kleurrijk plafond van linten"
+        class="aspect-[4/5] w-full object-cover sm:aspect-[16/10] lg:aspect-[21/9]"
+      >
+      <div class="absolute inset-0 bg-gradient-to-t from-park-ink/90 via-park-ink/30 to-transparent" aria-hidden="true" />
 
-    <div class="relative z-10 flex min-h-screen flex-col items-center justify-center gap-8 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="w-full max-w-2xl rounded-[2rem] bg-white/25 px-6 py-10 text-center shadow-xl backdrop-blur-md sm:px-10 sm:py-12">
-        <h1 class="font-serif text-6xl font-bold tracking-tight text-park-ink sm:text-7xl lg:text-8xl">
+      <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-14">
+        <h1 class="text-balance font-serif text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           Park Ouest
         </h1>
 
-        <p class="mx-auto mt-6 max-w-lg font-sans text-base leading-relaxed text-park-ink/70 sm:text-lg">
+        <p class="mt-4 max-w-[60ch] font-sans text-base leading-relaxed text-white/90 sm:text-lg">
           Park Ouest: tot voor kort een braakliggend terrein, nu de huiskamer, tuin en bos van de buurt. Lees hier onze jaarverslagen, bekijk statistieken en foto's, luister naar onze podcasts, lees wat anderen over ons schrijven.
         </p>
-      </div>
 
-      <nav class="grid w-full max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2" aria-label="Hoofdnavigatie">
         <button
-          v-for="tile in heroTiles"
-          :key="tile.id"
           type="button"
-          class="group relative flex aspect-[16/10] flex-col justify-center gap-4 overflow-hidden rounded-3xl p-5 text-left shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-6"
-          :style="{ backgroundColor: tile.color }"
-          @click="scrollToSection(tile.id)"
+          class="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-park-ink shadow-lg transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          @click="scrollToSection('publications')"
         >
-          <div class="relative z-10 flex items-center gap-4">
-            <div class="flex min-w-0 flex-1 flex-col justify-center">
-              <h2 class="font-serif text-2xl font-bold text-white sm:text-3xl">{{ tile.title }}</h2>
-              <p class="mt-2 font-sans text-sm leading-snug text-white/85">{{ tile.description }}</p>
-            </div>
-
-            <div class="aspect-square w-1/2 shrink-0 overflow-hidden rounded-2xl bg-white/15 shadow-lg ring-1 ring-white/25">
-              <img
-                :src="useAsset(tile.image)"
-                :alt="tile.title"
-                class="h-full w-full object-cover"
-              >
-            </div>
-          </div>
+          Ontdek Park Ouest
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
-      </nav>
+      </div>
     </div>
+
+    <nav
+      class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[220px]"
+      aria-label="Hoofdnavigatie"
+    >
+      <button
+        v-for="tile in heroTiles"
+        :key="tile.id"
+        v-reveal
+        type="button"
+        class="group relative flex flex-col gap-3 overflow-hidden rounded-2xl p-5 text-left shadow-md transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-6"
+        :class="spanClasses[tile.id]"
+        :style="{ backgroundColor: tile.color }"
+        @click="scrollToSection(tile.id)"
+      >
+        <span class="relative z-10 inline-block w-fit rounded-full bg-white/25 px-3 py-1 text-[0.65rem] font-bold tracking-widest text-white uppercase backdrop-blur-sm">
+          {{ tile.pill }}
+        </span>
+
+        <div
+          class="relative z-10 flex flex-1 gap-4"
+          :class="isFeature(tile.id) ? 'flex-col justify-end' : 'flex-row items-center'"
+        >
+          <div
+            v-if="isFeature(tile.id)"
+            class="aspect-[16/9] w-full shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/25"
+          >
+            <img
+              :src="useAsset(tile.image)"
+              :alt="tile.title"
+              class="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-safe:group-hover:rotate-1"
+            >
+          </div>
+
+          <div class="flex min-w-0 flex-1 flex-col justify-center">
+            <h2 class="text-balance font-serif text-xl font-bold text-white sm:text-2xl" :class="isFeature(tile.id) ? 'lg:text-3xl' : ''">
+              {{ tile.title }}
+            </h2>
+            <p class="mt-1.5 font-sans text-sm leading-snug text-white/85">{{ tile.description }}</p>
+          </div>
+
+          <div
+            v-if="!isFeature(tile.id)"
+            class="aspect-square w-2/5 shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/25 sm:w-1/3 lg:h-32 lg:w-32"
+          >
+            <img
+              :src="useAsset(tile.image)"
+              :alt="tile.title"
+              class="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-safe:group-hover:-rotate-1"
+            >
+          </div>
+        </div>
+      </button>
+    </nav>
   </header>
 </template>

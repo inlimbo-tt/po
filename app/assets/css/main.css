@@ -7,12 +7,14 @@
   --color-park-bg: #C6CFC2;
   --color-park-pill: #3d8b5a;
   --color-park-pill-hover: #2f7048;
-  --color-park-cream: #eef2e3;
+  --color-park-cream: #fbf7f0;
   --color-park-ink: #16281f;
   --color-park-green: #2f6b4a;
   --color-park-green-dark: #1f4a37;
   --color-park-green-light: #92bb62;
   --color-park-amber: #d99a35;
+  --color-park-teal: #1a6b8a;
+  --color-park-teal-dark: #114a5f;
 }
 
 @layer base {
@@ -30,18 +32,9 @@
   body {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     color: #16281f;
+    background: var(--color-park-cream);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-  }
-
-  .app-bg-layer {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-color: #eef2e3;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   img {
@@ -72,12 +65,10 @@
 
   .section-inner {
     width: 100%;
-    max-width: 1100px;
-    background: rgba(238, 242, 227, 0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 2rem;
-    box-shadow: 0 24px 60px rgba(22, 40, 31, 0.18);
+    max-width: 72rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 12px 32px rgba(22, 40, 31, 0.08);
     padding: clamp(1.75rem, 4vw, 3rem);
   }
 
@@ -126,5 +117,24 @@
   .back-to-top:hover {
     transform: translateY(-2px);
     background: #2f6b4a;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

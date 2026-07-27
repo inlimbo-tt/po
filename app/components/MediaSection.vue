@@ -4,7 +4,7 @@ import { mediaItems } from '~/data/content'
 
 <template>
   <section id="media" class="site-section">
-    <div class="section-inner">
+    <div v-reveal class="section-inner">
       <h2 class="section-title">Media</h2>
       <p class="section-lead">
         Persberichten, artikelen en reportages over Park Ouest in de media.

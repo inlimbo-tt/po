@@ -23,7 +23,7 @@ function closeViewer() {
 
 <template>
   <section id="publications" class="site-section">
-    <div class="section-inner">
+    <div v-reveal class="section-inner">
       <h2 class="section-title">Publications</h2>
       <p class="section-lead">{{ publicationsBlurb }}</p>
 
