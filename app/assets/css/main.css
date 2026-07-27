@@ -30,16 +30,17 @@
   body {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     color: #16281f;
-    background: #eef2e3;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
-  .app-bg {
+  .app-bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     background-color: #eef2e3;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     background-repeat: no-repeat;
   }
 

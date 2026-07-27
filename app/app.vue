@@ -5,7 +5,8 @@ const bg = useAsset(heroImage)
 </script>
 
 <template>
-  <div class="app-bg" :style="{ backgroundImage: `url(${bg})` }">
+  <div>
+    <div class="app-bg-layer" :style="{ backgroundImage: `url(${bg})` }" aria-hidden="true" />
     <NuxtRouteAnnouncer />
     <NuxtPage />
   </div>
