@@ -12,12 +12,11 @@ function scrollToSection(id: string) {
     <div class="relative z-10 flex min-h-screen flex-col items-center justify-center gap-8 px-4 py-16 sm:px-6 lg:px-8">
       <div class="w-full max-w-2xl rounded-[2rem] bg-white/25 px-6 py-10 text-center shadow-xl backdrop-blur-md sm:px-10 sm:py-12">
         <h1 class="font-serif text-6xl font-bold tracking-tight text-park-ink sm:text-7xl lg:text-8xl">
-          Parc Ouest
+          Park Ouest
         </h1>
 
         <p class="mx-auto mt-6 max-w-lg font-sans text-base leading-relaxed text-park-ink/70 sm:text-lg">
-          A living, breathing green space in the heart of the city. Pick a tile to explore our
-          zine, listen to the podcast, browse the gallery, or follow the park's story.
+          Park Ouest: tot voor kort een braakliggend terrein, nu de huiskamer, tuin en bos van de buurt. Lees hier onze jaarverslagen, bekijk statistieken en foto's, luister naar onze podcasts, lees wat anderen over ons schrijven.
         </p>
       </div>
 

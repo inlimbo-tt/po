@@ -67,7 +67,7 @@ function closeViewer() {
       </div>
 
       <ClientOnly>
-        <PdfZineViewer
+        <LazyPdfZineViewer
           v-if="showViewer"
           :pdf-url="showViewer.pdfUrl"
           :title="showViewer.title"

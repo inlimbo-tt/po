@@ -45,17 +45,17 @@ export const heroTiles: HeroTile[] = [
   {
     id: 'publications',
     pill: 'READ',
-    title: 'PDF Zine',
+    title: 'Publicaties',
     description: 'Blader door onze publicaties en jaarverslagen als een digitaal boekje.',
-    image: '/tiles/hero_rapport_tile.png',
+    image: '/tiles/hero_rapport_tile.jpg',
     color: '#2f6b4a',
   },
   {
     id: 'park-in-cijfers',
     pill: 'COUNT',
-    title: 'Park Ouest in Numbers',
+    title: 'Park Ouest in cijfers',
     description: 'Een visueel overzicht van de belangrijkste statistieken en kengetallen van het park.',
-    image: '/tiles/hero_infographic_tile.png',
+    image: '/tiles/hero_infographic_tile.jpg',
     color: '#1a6b8a',
   },
   {
@@ -63,23 +63,23 @@ export const heroTiles: HeroTile[] = [
     pill: 'LISTEN',
     title: 'Podcasts',
     description: 'Beluister gesprekken over de toekomst en het verhaal van het park.',
-    image: '/tiles/hero_podcast_tile.png',
+    image: '/tiles/hero_podcast_tile.jpg',
     color: '#d99a35',
   },
   {
     id: 'fotos',
     pill: 'LOOK',
-    title: 'Image Gallery',
+    title: 'Foto galerij',
     description: "Bekijk foto's van het park doorheen de seizoenen.",
-    image: '/tiles/hero_images_tile.png',
+    image: '/tiles/hero_images_tile.jpg',
     color: '#92bb62',
   },
   {
     id: 'media',
     pill: 'FOLLOW',
-    title: 'Media Links',
+    title: 'Media ',
     description: 'Volg het parkverhaal in de pers en op sociale media.',
-    image: '/tiles/hero_media_tile.png',
+    image: '/tiles/hero_media_tile.jpg',
     color: '#1f4a37',
   },
 ]
@@ -91,21 +91,21 @@ export const publications: Publication[] = [
     description: 'Het volledige jaarverslag van Park Ouest met ontwikkelingen, cijfers en visie voor de toekomst.',
     pdfUrl: '/pdfs/jaarrapport.pdf',
     coverColor: '#1a6b8a',
-    tileImage: '/tiles/jaarrapport_tile.png',
+    tileImage: '/tiles/jaarrapport_tile.jpg',
   },
   {
     id: 'key-elements',
     title: 'Key Elements',
-    description: 'Een compact overzicht van de kernpunten en belangrijkste elementen van het park.',
+    description: 'Een compact overzicht van onze analyse van het park, haar bezoekers en de buurt.',
     pdfUrl: '/pdfs/key-elements.pdf',
-    tileImage: '/tiles/keylements_tile.png',
+    tileImage: '/tiles/keylements_tile.jpg',
     coverColor: '#2d8a6b',
   },
 ]
 
 export const parkInfographic = {
   title: 'Park Ouest in cijfers',
-  description: 'Een visueel overzicht van de belangrijkste statistieken en kengetallen van Park Ouest.',
+  description: 'Een visueel overzicht van de belangrijkste statistieken en kerngetallen van Park Ouest.',
 }
 
 export const parkInfographics: string[] = [
@@ -117,22 +117,22 @@ export const parkInfographics: string[] = [
 export const podcastEpisodes: PodcastEpisode[] = [
   {
     id: 'ep1',
-    title: 'De toekomst van Park Ouest',
-    description: 'Een gesprek over de visie en plannen voor de komende jaren.',
+    title: 'Just Like Home',
+    description: 'Wat betekent het park voor haar bezoekers? En vooral, waar zijn ze naar op zoek?',
     duration: '24 min',
     audioUrl: '/audio/episode-1.mp3',
   },
   {
     id: 'ep2',
-    title: 'Groen in de stad',
-    description: 'Hoe Park Ouest bijdraagt aan stedelijke vergroening en biodiversiteit.',
+    title: 'Seuil et Limites',
+    description: 'Hekken, heuvels, deuren en ramen: Hoe open moet het park zijn?.',
     duration: '18 min',
     audioUrl: '/audio/episode-2.mp3',
   },
   {
     id: 'ep3',
-    title: 'Buurt en gemeenschap',
-    description: 'Bewoners en ondernemers delen hun ervaringen met het park.',
+    title: 'What If?',
+    description: 'Dromen over het park...',
     duration: '31 min',
     audioUrl: '/audio/episode-3.mp3',
   },
