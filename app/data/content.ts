@@ -13,6 +13,7 @@ export interface Publication {
   description: string
   pdfUrl: string
   coverColor: string
+  tileImage: string
 }
 
 export interface PodcastEpisode {
@@ -46,7 +47,7 @@ export const heroTiles: HeroTile[] = [
     pill: 'READ',
     title: 'PDF Zine',
     description: 'Blader door onze publicaties en jaarverslagen als een digitaal boekje.',
-    image: '/images/assets/zine-placeholder.webp',
+    image: '/tiles/hero_rapport_tile.png',
     color: '#2f6b4a',
   },
   {
@@ -54,7 +55,7 @@ export const heroTiles: HeroTile[] = [
     pill: 'COUNT',
     title: 'Park Ouest in Numbers',
     description: 'Een visueel overzicht van de belangrijkste statistieken en kengetallen van het park.',
-    image: '/images/infographic.svg',
+    image: '/tiles/hero_infographic_tile.png',
     color: '#1a6b8a',
   },
   {
@@ -62,7 +63,7 @@ export const heroTiles: HeroTile[] = [
     pill: 'LISTEN',
     title: 'Podcasts',
     description: 'Beluister gesprekken over de toekomst en het verhaal van het park.',
-    image: '/images/assets/podcasts-placeholder.webp',
+    image: '/tiles/hero_podcast_tile.png',
     color: '#d99a35',
   },
   {
@@ -70,7 +71,7 @@ export const heroTiles: HeroTile[] = [
     pill: 'LOOK',
     title: 'Image Gallery',
     description: "Bekijk foto's van het park doorheen de seizoenen.",
-    image: '/images/assets/gallery-placeholder.webp',
+    image: '/tiles/hero_images_tile.png',
     color: '#92bb62',
   },
   {
@@ -78,7 +79,7 @@ export const heroTiles: HeroTile[] = [
     pill: 'FOLLOW',
     title: 'Media Links',
     description: 'Volg het parkverhaal in de pers en op sociale media.',
-    image: '/images/assets/media-links-placeholder.webp',
+    image: '/tiles/hero_media_tile.png',
     color: '#1f4a37',
   },
 ]
@@ -90,12 +91,14 @@ export const publications: Publication[] = [
     description: 'Het volledige jaarverslag van Park Ouest met ontwikkelingen, cijfers en visie voor de toekomst.',
     pdfUrl: '/pdfs/jaarrapport.pdf',
     coverColor: '#1a6b8a',
+    tileImage: '/tiles/jaarrapport_tile.png',
   },
   {
     id: 'key-elements',
     title: 'Key Elements',
     description: 'Een compact overzicht van de kernpunten en belangrijkste elementen van het park.',
     pdfUrl: '/pdfs/key-elements.pdf',
+    tileImage: '/tiles/keylements_tile.png',
     coverColor: '#2d8a6b',
   },
 ]

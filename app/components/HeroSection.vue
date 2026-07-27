@@ -26,31 +26,17 @@ function scrollToSection(id: string) {
           v-for="tile in heroTiles"
           :key="tile.id"
           type="button"
-          class="group relative flex aspect-[16/10] flex-col justify-between overflow-hidden rounded-3xl p-5 text-left shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-6"
+          class="group relative flex aspect-[16/10] flex-col justify-center gap-4 overflow-hidden rounded-3xl p-5 text-left shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-6"
           :style="{ backgroundColor: tile.color }"
           @click="scrollToSection(tile.id)"
         >
-          <div class="relative z-10 flex items-start justify-between">
-            <span class="inline-block rounded-full bg-white/25 px-3 py-1 text-[0.65rem] font-bold tracking-widest text-white uppercase backdrop-blur-sm">
-              {{ tile.pill }}
-            </span>
-            <span
-              class="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors group-hover:bg-white group-hover:text-park-ink"
-              aria-hidden="true"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
-                <path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </span>
-          </div>
-
-          <div class="relative z-10 flex items-stretch gap-4">
-            <div class="flex min-w-0 flex-1 flex-col justify-end">
+          <div class="relative z-10 flex items-center gap-4">
+            <div class="flex min-w-0 flex-1 flex-col justify-center">
               <h2 class="font-serif text-2xl font-bold text-white sm:text-3xl">{{ tile.title }}</h2>
               <p class="mt-2 font-sans text-sm leading-snug text-white/85">{{ tile.description }}</p>
             </div>
 
-            <div class="w-2/5 shrink-0 overflow-hidden rounded-2xl bg-white/15 shadow-lg ring-1 ring-white/25">
+            <div class="aspect-square w-1/2 shrink-0 overflow-hidden rounded-2xl bg-white/15 shadow-lg ring-1 ring-white/25">
               <img
                 :src="tile.image"
                 :alt="tile.title"

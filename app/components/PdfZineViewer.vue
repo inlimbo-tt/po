@@ -12,7 +12,11 @@ const emit = defineEmits<{ close: [] }>()
 
 const loading = ref(true)
 const error = ref('')
+const loadedPages = ref(0)
+const totalPages = ref(0)
+const progressPercent = ref(0)
 const bookRef = ref<HTMLElement | null>(null)
+const modalRef = ref<HTMLElement | null>(null)
 let pageFlip: PageFlip | null = null
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
@@ -23,9 +27,13 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
 async function renderPdf() {
   loading.value = true
   error.value = ''
+  loadedPages.value = 0
+  totalPages.value = 0
+  progressPercent.value = 0
 
   try {
     const pdf = await pdfjsLib.getDocument({ url: props.pdfUrl }).promise
+    totalPages.value = pdf.numPages
     const pageImages: string[] = []
 
     for (let i = 1; i <= pdf.numPages; i++) {
@@ -37,6 +45,8 @@ async function renderPdf() {
       const ctx = canvas.getContext('2d')!
       await page.render({ canvas, canvasContext: ctx, viewport }).promise
       pageImages.push(canvas.toDataURL('image/jpeg', 0.85))
+      loadedPages.value = i
+      progressPercent.value = Math.round((i / pdf.numPages) * 100)
     }
 
     await nextTick()
@@ -67,8 +77,10 @@ function initFlipbook(images: string[]) {
   const A4_RATIO = 1.4142
   // reserve room for the modal header, controls and hint text so they stay visible
   const chromeHeight = 170
-  const maxContainerWidth = window.innerWidth * 0.9
-  const maxContainerHeight = window.innerHeight * 0.95 - chromeHeight
+  // reserve room for the modal's own horizontal padding so the right page never gets clipped
+  const modalHorizontalPadding = 96
+  const maxContainerWidth = window.innerWidth * 0.96 - modalHorizontalPadding
+  const maxContainerHeight = window.innerHeight * 0.96 - chromeHeight
   const isDoublePage = maxContainerWidth / 2 >= 400
 
   let pageWidth = isDoublePage ? maxContainerWidth / 2 : maxContainerWidth
@@ -77,6 +89,11 @@ function initFlipbook(images: string[]) {
     pageHeight = maxContainerHeight
     pageWidth = pageHeight / A4_RATIO
   }
+
+  // the book's internal wrapper is positioned absolutely, so the flip-book
+  // container needs an explicit size or the modal won't size around it correctly
+  bookRef.value.style.width = `${pageWidth * (isDoublePage ? 2 : 1)}px`
+  bookRef.value.style.height = `${pageHeight}px`
 
   pageFlip = new PageFlip(bookRef.value, {
     width: pageWidth,
@@ -119,7 +136,14 @@ watch(() => props.pdfUrl, renderPdf)
         <button class="close-btn" aria-label="Sluiten" @click="emit('close')">✕</button>
       </header>
 
-      <div v-if="loading" class="zine-status">PDF laden…</div>
+      <div v-if="loading" class="zine-status">
+        <div class="zine-progress-track">
+          <div class="zine-progress-fill" :style="{ width: `${progressPercent}%` }" />
+        </div>
+        <p class="zine-progress-label">
+          {{ totalPages > 0 ? `Pagina ${loadedPages} van ${totalPages} laden… (${progressPercent}%)` : 'PDF openen…' }}
+        </p>
+      </div>
       <div v-else-if="error" class="zine-status error">{{ error }}</div>
 
       <div v-show="!loading && !error" class="zine-body">
@@ -149,10 +173,10 @@ watch(() => props.pdfUrl, renderPdf)
 .zine-modal {
   background: #2a2a2a;
   border-radius: 16px;
-  max-width: 95vw;
-  max-height: 95vh;
+  max-width: 98vw;
+  max-height: 98vh;
   overflow: auto;
-  padding: 1.5rem;
+  padding: 1.5rem 3rem;
 }
 
 .zine-header {
@@ -183,10 +207,33 @@ watch(() => props.pdfUrl, renderPdf)
   color: #ccc;
   text-align: center;
   padding: 3rem;
+  width: min(90vw, 360px);
 }
 
 .zine-status.error {
   color: #f88;
+  width: auto;
+}
+
+.zine-progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.zine-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #d99a35;
+  transition: width 0.2s ease;
+}
+
+.zine-progress-label {
+  margin-top: 0.85rem;
+  font-size: 0.85rem;
+  color: #ccc;
 }
 
 .zine-body {

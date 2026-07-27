@@ -38,10 +38,9 @@ function closeViewer() {
           </span>
 
           <div class="mt-4 flex flex-col gap-6 sm:flex-row sm:items-center">
-            <div
-              class="aspect-square w-full shrink-0 rounded-2xl sm:w-64"
-              :style="{ backgroundColor: pub.coverColor }"
-            />
+            <div class="aspect-square w-full shrink-0 overflow-hidden rounded-2xl ring-1 ring-black/20 sm:w-64" :style="{ backgroundColor: pub.coverColor }">
+              <img :src="pub.tileImage" :alt="pub.title" class="h-full w-full object-cover">
+            </div>
 
             <div class="min-w-0">
               <p class="text-xs font-bold tracking-widest text-park-green uppercase">{{ pub.title }}</p>
