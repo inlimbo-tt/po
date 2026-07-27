@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" fill="none">
+  <rect width="1200" height="800" fill="#f5f0e8"/>
+  <text x="600" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#1a1a1a">Park Ouest in Cijfers</text>
+  <rect x="80" y="100" width="320" height="200" rx="12" fill="#1a6b8a"/>
+  <text x="240" y="190" text-anchor="middle" font-family="sans-serif" font-size="48" fill="white" font-weight="bold">42 ha</text>
+  <text x="240" y="230" text-anchor="middle" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">totaal oppervlakte</text>
+  <rect x="440" y="100" width="320" height="200" rx="12" fill="#e07b39"/>
+  <text x="600" y="190" text-anchor="middle" font-family="sans-serif" font-size="48" fill="white" font-weight="bold">12.500</text>
+  <text x="600" y="230" text-anchor="middle" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">bezoekers per jaar</text>
+  <rect x="800" y="100" width="320" height="200" rx="12" fill="#3d8b5a"/>
+  <text x="960" y="190" text-anchor="middle" font-family="sans-serif" font-size="48" fill="white" font-weight="bold">850</text>
+  <text x="960" y="230" text-anchor="middle" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">bomen geplant</text>
+  <rect x="80" y="340" width="500" height="380" rx="12" fill="#7b4ba8"/>
+  <text x="330" y="420" text-anchor="middle" font-family="sans-serif" font-size="24" fill="white">Groenpercentage</text>
+  <text x="330" y="520" text-anchor="middle" font-family="sans-serif" font-size="96" fill="white" font-weight="bold">68%</text>
+  <rect x="620" y="340" width="500" height="380" rx="12" fill="#c44d6e"/>
+  <text x="870" y="420" text-anchor="middle" font-family="sans-serif" font-size="24" fill="white">Investering</text>
+  <text x="870" y="520" text-anchor="middle" font-family="sans-serif" font-size="72" fill="white" font-weight="bold">€4.2M</text>
+  <text x="870" y="570" text-anchor="middle" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">totale projectkosten</text>
+</svg>
