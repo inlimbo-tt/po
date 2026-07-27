@@ -30,9 +30,17 @@
   body {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     color: #16281f;
-    background: #eef2e3 url('/images/hero.jpg') center / cover fixed no-repeat;
+    background: #eef2e3;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+
+  .app-bg {
+    background-color: #eef2e3;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 
   img {

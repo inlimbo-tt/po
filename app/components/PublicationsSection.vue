@@ -7,7 +7,7 @@ const showViewer = ref<Publication | null>(null)
 
 function downloadPdf(pub: Publication) {
   const link = document.createElement('a')
-  link.href = pub.pdfUrl
+  link.href = useAsset(pub.pdfUrl)
   link.download = `${pub.id}.pdf`
   link.click()
 }
@@ -39,7 +39,7 @@ function closeViewer() {
 
           <div class="mt-4 flex flex-col gap-6 sm:flex-row sm:items-center">
             <div class="aspect-square w-full shrink-0 overflow-hidden rounded-2xl ring-1 ring-black/20 sm:w-64" :style="{ backgroundColor: pub.coverColor }">
-              <img :src="pub.tileImage" :alt="pub.title" class="h-full w-full object-cover">
+              <img :src="useAsset(pub.tileImage)" :alt="pub.title" class="h-full w-full object-cover">
             </div>
 
             <div class="min-w-0">
@@ -69,7 +69,7 @@ function closeViewer() {
       <ClientOnly>
         <LazyPdfZineViewer
           v-if="showViewer"
-          :pdf-url="showViewer.pdfUrl"
+          :pdf-url="useAsset(showViewer.pdfUrl)"
           :title="showViewer.title"
           @close="closeViewer"
         />

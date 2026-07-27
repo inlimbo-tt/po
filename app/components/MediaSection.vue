@@ -21,7 +21,7 @@ import { mediaItems } from '~/data/content'
         >
           <div class="aspect-[4/3] w-full overflow-hidden bg-park-cream">
             <img
-              :src="item.thumbnail"
+              :src="useAsset(item.thumbnail)"
               :alt="item.title"
               loading="lazy"
               class="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"

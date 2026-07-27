@@ -63,7 +63,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           @click="toggleZoom"
         >
           <img
-            :src="photos[activeIndex]"
+            :src="useAsset(photos[activeIndex])"
             :alt="`Park Ouest foto ${activeIndex + 1}`"
             class="aspect-[4/3] w-full object-cover"
           >
@@ -103,7 +103,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     </div>
 
     <div v-if="zoomed" class="photo-lightbox" @click="zoomed = false">
-      <img :src="photos[activeIndex]" :alt="`Park Ouest foto ${activeIndex + 1}`">
+      <img :src="useAsset(photos[activeIndex])" :alt="`Park Ouest foto ${activeIndex + 1}`">
     </div>
   </section>
 </template>

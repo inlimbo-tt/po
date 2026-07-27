@@ -86,7 +86,7 @@ function onPause() {
           <span class="audio-title">{{ currentTitle }}</span>
           <audio
             ref="audioRef"
-            :src="currentEpisode.audioUrl"
+            :src="useAsset(currentEpisode.audioUrl)"
             controls
             class="audio-element"
             @play="onPlay"

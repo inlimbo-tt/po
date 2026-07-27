@@ -37,7 +37,7 @@ function scrollToSection(id: string) {
 
             <div class="aspect-square w-1/2 shrink-0 overflow-hidden rounded-2xl bg-white/15 shadow-lg ring-1 ring-white/25">
               <img
-                :src="tile.image"
+                :src="useAsset(tile.image)"
                 :alt="tile.title"
                 class="h-full w-full object-cover"
               >
