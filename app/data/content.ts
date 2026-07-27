@@ -27,11 +27,18 @@ export interface MediaItem {
   id: string
   title: string
   source: string
-  blurb: string
-  type: 'image' | 'pdf'
   url: string
-  thumbnail?: string
+  thumbnail: string
 }
+
+function mshotsThumbnail(url: string): string {
+  return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1000&h=750`
+}
+
+// A handful of publishers (Le Soir, NYT) block the mshots screenshot bot,
+// so those items fall back to the live (occasionally blocked) endpoint
+// instead of a locally cached image.
+const NO_LOCAL_SCREENSHOT = new Set(['m2', 'm4', 'm17', 'm27'])
 
 export const heroTiles: HeroTile[] = [
   {
@@ -151,44 +158,48 @@ const photoFilenames = [
 
 export const photos: string[] = photoFilenames.map((f) => `/images/photos/${encodeURIComponent(f)}`)
 
-export const mediaItems: MediaItem[] = [
-  {
-    id: 'm1',
-    title: 'Nieuwe groene long voor de wijk',
-    source: 'De Standaard',
-    blurb: 'Park Ouest wordt gepresenteerd als voorbeeldproject voor duurzame stadsontwikkeling in Vlaanderen.',
-    type: 'image',
-    url: '/images/media/article-1.svg',
-    thumbnail: '/images/media/article-1.svg',
-  },
-  {
-    id: 'm2',
-    title: 'Investering in publieke ruimte',
-    source: 'Gazet van Antwerpen',
-    blurb: 'Gemeente kondigt extra budget aan voor de verdere uitbouw van Park Ouest.',
-    type: 'pdf',
-    url: '/pdfs/media-gva.pdf',
-    thumbnail: '/images/media/article-2.svg',
-  },
-  {
-    id: 'm3',
-    title: 'Architectuurprijs nominatie',
-    source: 'Architectura',
-    blurb: 'Het landschapsontwerp van Park Ouest is genomineerd voor de Vlaamse Architectuurprijs.',
-    type: 'image',
-    url: '/images/media/article-3.svg',
-    thumbnail: '/images/media/article-3.svg',
-  },
-  {
-    id: 'm4',
-    title: 'Reportage: een dag in het park',
-    source: 'VRT NWS',
-    blurb: 'Televisiereportage over hoe bewoners Park Ouest ervaren als ontmoetingsplek.',
-    type: 'image',
-    url: '/images/media/article-4.svg',
-    thumbnail: '/images/media/article-4.svg',
-  },
+const rawMediaItems: { title: string; source: string; url: string }[] = [
+  { title: "Bruxelles M'habite", source: 'Radio Panik', url: 'https://www.radiopanik.org/media/sounds/bruxelles-m-habite/67_18362__0.mp3' },
+  { title: 'Parc Ouest, jardin de Molenbeek', source: 'Le Soir', url: 'https://www.lesoir.be/626202/article/2024-10-01/molenbeek-le-parc-ouest-est-le-jardin-des-habitants-du-quartier' },
+  { title: 'Zwangere Guy zoekt speelgoed park', source: 'VRT NWS', url: 'https://www.vrt.be/vrtnws/nl/2023/12/29/oproep-zwangere-guy-iemand-een-vliegtuig-op-overschot/' },
+  { title: 'Les communes les plus vertes', source: 'Le Soir', url: 'https://www.lesoir.be/626205/article/2024-10-01/quelles-sont-les-communes-les-plus-vertes-de-belgique-carte-interactive' },
+  { title: 'Park Ouest, Molenbeek, en sursis', source: 'Bruxelles Today', url: 'https://www.bruxellestoday.be/quartiers/parc-ouest-sursis-fermeture.html' },
+  { title: 'We moeten opstaan voor elkaar', source: 'De Groene Amsterdammer', url: 'https://www.groene.nl/artikel/we-moeten-opstaan-voor-elkaar' },
+  { title: 'Nieuwe Graanmarkt wordt vrouwvriendelijker', source: 'VRT', url: 'https://www.vrt.be/vrtnws/nl/2025/07/03/stad-brussel-wil-nieuwe-graanmarkt-vrouwvriendelijker-maken/' },
+  { title: 'Nieuwe Graanmarkt wordt vrouwvriendelijker', source: 'Bruzz', url: 'https://www.bruzz.be/actua/stedenbouw/stad-brussel-wil-nieuwe-graanmarkt-vrouwvriendelijker-maken-2025-07-03' },
+  { title: 'Park Ouest blijft open tot februari', source: 'DH', url: 'https://www.dhnet.be/regions/bruxelles/2025/12/24/bonne-nouvelle-pour-le-park-ouest-a-molenbeek-le-parc-reste-ouvert-jusqua-fin-fevrier-EOMAVG2DI5EQVK6ZT7O4JZ73YI/' },
+  { title: 'Park West bedreigd met sluiting', source: 'Bruzz', url: 'https://www.bruzz.be/actua/stedenbouw/molenbeeks-park-west-met-sluiting-bedreigd-door-regeringscrisis-2025-12-11' },
+  { title: 'Parc Ouest menacé de fermeture', source: 'Brussels Today', url: 'https://www.bruxellestoday.be/quartiers/parc-ouest-molenbeek-menace-fermeture.html' },
+  { title: 'Parc Ouest menacé sans gouvernement', source: 'BX1', url: 'https://bx1.be/categories/news/molenbeek-sans-gouvernement-bruxellois-le-projet-parc-ouest-menace/' },
+  { title: 'Le salon du quartier menacé', source: 'DH', url: 'https://www.dhnet.be/regions/bruxelles/2025/12/13/park-ouest-cest-le-salon-de-la-moitie-du-quartier-un-projet-socioculturel-etale-sur-3-hectares-menace-de-fermeture-U727XYG3KJD6HLIEOLHDF6LGEM/' },
+  { title: 'Parc Ouest en sursis, peur', source: 'Brussels Today', url: 'https://www.bruxellestoday.be/quartiers/parc-ouest-sursis-fermeture.html' },
+  { title: 'Park West blijft toch open', source: 'Nieuwsblad', url: 'https://www.nieuwsblad.be/regio/brussel/brussel/park-west-blijft-open-het-loont-om-als-buurt-op-te-komen-voor-wat-belangrijk-is/124520236.html' },
+  { title: "Molenbeek's Park West blijft open", source: 'Bruzz', url: 'https://www.bruzz.be/actua/stedenbouw/park-west-molenbeek-blijft-dan-toch-open-2026-01-17' },
+  { title: 'Parc menacé restera finalement ouvert', source: 'Le Soir', url: 'https://www.lesoir.be/723004/article/2026-01-17/cest-un-signal-tres-fort-un-parc-bruxellois-menace-de-fermeture-va-finalement' },
+  { title: 'Parc Ouest reste ouvert finalement', source: 'BX1', url: 'https://bx1.be/categories/news/le-parc-ouest-de-molenbeek-menace-de-fermeture-restera-ouvert-un-grand-merci-a-tous-ceux-qui-se-sont-mobilises/' },
+  { title: 'Ouvert grâce à mobilisation citoyenne', source: 'Brussels Today', url: 'https://www.bruxellestoday.be/actualite/parc-ouest-molenbeek-ouvert.html' },
+  { title: 'Buurtbewoners houden Park West open', source: 'VRT', url: 'https://www.vrt.be/vrtnws/nl/2026/01/17/park-west-in-molenbeek-blijft-dan-toch-open/' },
+  { title: 'Park West blijft toch open', source: 'Bruzzket', url: 'https://www.bruzzket.be/nieuws/park-west-molenbeek-blijft-toch-open-na-veel-protest-2026-01-19' },
+  { title: 'Groene ontmoetingsruimte in drukke wijk', source: 'Visie', url: 'https://visie.net/artikel/parc-ouest-groene-ontmoetingsruimte-in-drukbevolkte-wijk' },
+  { title: 'Tijdelijk gebruik leegstand wint belang', source: 'Bruzz', url: 'https://www.bruzz.be/actua/stedenbouw/tijdelijk-gebruik-van-leegstaande-gebouwen-steeds-belangrijker-brussel-2026-03-02' },
+  { title: 'Kinderen bouwen zelf hun park', source: 'Jint', url: 'https://www.jint.be/verhalen/park-ouest-bouwen-kinderen-zelf-aan-hun-park' },
+  { title: 'Occupation temporaire, nouvel outil urbain', source: 'Brussels Today', url: 'https://www.bruxellestoday.be/environnement/bruxelles-occupation-temporaire-transformation.html' },
+  { title: 'Tijdelijk gebruik leegstand wint belang', source: 'Nieuwsblad', url: 'https://www.nieuwsblad.be/regio/brussel/brussel/tijdelijk-gebruik-van-leegstaande-gebouwen-steeds-belangrijker-in-brussel/138380217.html' },
+  { title: 'Molenbeek moves on from terror', source: 'The New York Times', url: 'https://www.nytimes.com/2026/03/22/world/europe/brussels-terror-molenbeek.html' },
 ]
+
+export const mediaItems: MediaItem[] = rawMediaItems.map((item, i) => {
+  const id = `m${i + 1}`
+  return {
+    id,
+    title: item.title,
+    source: item.source,
+    url: item.url,
+    thumbnail: NO_LOCAL_SCREENSHOT.has(id)
+      ? mshotsThumbnail(item.url)
+      : `/images/media-screenshots/${id}.jpg`,
+  }
+})
 
 export const heroImage = '/images/hero.jpg'
 
