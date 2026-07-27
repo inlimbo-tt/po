@@ -14,10 +14,6 @@ function next() {
   activeIndex.value = activeIndex.value === photos.length - 1 ? 0 : activeIndex.value + 1
 }
 
-function goTo(i: number) {
-  activeIndex.value = i
-}
-
 function toggleZoom() {
   zoomed.value = !zoomed.value
 }
@@ -88,16 +84,26 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           →
         </button>
 
-        <div class="mt-4 flex flex-wrap justify-center gap-2">
+        <div class="mt-4 flex items-center justify-center gap-4 text-sm font-bold text-park-ink/60">
           <button
-            v-for="(photo, i) in photos"
-            :key="photo"
+            v-if="photos.length > 1"
             type="button"
-            class="h-2.5 w-2.5 rounded-full transition-colors"
-            :class="i === activeIndex ? 'bg-park-green' : 'bg-park-ink/20'"
-            :aria-label="`Ga naar foto ${i + 1}`"
-            @click="goTo(i)"
-          />
+            class="rounded-full px-2 py-1 transition-colors hover:text-park-ink"
+            aria-label="Vorige foto"
+            @click="prev"
+          >
+            ←
+          </button>
+          <span>{{ activeIndex + 1 }} / {{ photos.length }}</span>
+          <button
+            v-if="photos.length > 1"
+            type="button"
+            class="rounded-full px-2 py-1 transition-colors hover:text-park-ink"
+            aria-label="Volgende foto"
+            @click="next"
+          >
+            →
+          </button>
         </div>
       </div>
     </div>

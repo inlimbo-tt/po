@@ -56,14 +56,14 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       >
         <button
           type="button"
-          class="block w-full cursor-zoom-in overflow-hidden rounded-2xl shadow-[0_8px_32px_rgba(22,40,31,0.15)]"
+          class="flex h-[60vh] w-full max-h-[640px] cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl bg-park-cream shadow-[0_8px_32px_rgba(22,40,31,0.15)]"
           aria-label="Klik om in te zoomen"
           @click="toggleZoom"
         >
           <img
             :src="useAsset(parkInfographics[activeIndex])"
             :alt="`Infographic Park Ouest ${activeIndex + 1}`"
-            class="aspect-[4/3] w-full object-cover"
+            class="max-h-full max-w-full object-contain"
           >
         </button>
 
