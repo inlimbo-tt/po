@@ -5,7 +5,7 @@ const accentColors = ['#2f6b4a', '#1a6b8a', '#d99a35', '#92bb62', '#1f4a37']
 </script>
 
 <template>
-  <section id="media" class="site-section">
+  <section id="media" class="site-section band-ochre">
     <div v-reveal class="section-inner">
       <h2 class="section-title">In de pers</h2>
       <p class="section-lead">
@@ -32,7 +32,7 @@ const accentColors = ['#2f6b4a', '#1a6b8a', '#d99a35', '#92bb62', '#1f4a37']
 
           <div class="flex flex-1 flex-col p-5">
             <span class="text-xs font-bold tracking-widest uppercase" :style="{ color: accentColors[i % accentColors.length] }">{{ item.source }}</span>
-            <h3 class="mt-2 flex-1 text-balance font-serif text-lg leading-snug font-bold text-park-ink">{{ item.title }}</h3>
+            <h3 class="mt-2 flex-1 text-balance font-display text-lg leading-snug font-bold text-park-ink">{{ item.title }}</h3>
             <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-park-green transition-transform duration-300 motion-safe:group-hover:translate-x-1">
               Lees artikel
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">

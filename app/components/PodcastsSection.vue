@@ -34,9 +34,15 @@ function onPause() {
 </script>
 
 <template>
-  <section id="podcasts" class="site-section">
+  <section id="podcasts" class="site-section band-green">
     <div v-reveal class="section-inner">
-      <h2 class="section-title">Podcasts</h2>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-amber uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+          <path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Zm18 0a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Beluister
+      </span>
+      <h2 class="section-title mt-3">Podcasts</h2>
       <p class="section-lead">
         Luister naar verhalen over Park Ouest — van visie en groen tot buurt en gemeenschap.
       </p>
@@ -60,7 +66,7 @@ function onPause() {
               </span>
               <div class="min-w-0 flex-1">
                 <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">Aflevering {{ String(i + 1).padStart(2, '0') }}</p>
-                <h3 class="mt-0.5 font-serif text-lg font-bold text-park-ink">{{ ep.title }}</h3>
+                <h3 class="mt-0.5 font-display text-lg font-bold text-park-ink">{{ ep.title }}</h3>
               </div>
               <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4">

@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Fraunces', Georgia, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 
   --color-park-bg: #C6CFC2;
   --color-park-pill: #3d8b5a;
@@ -30,12 +30,9 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     color: #16281f;
-    background-color: #faf6ee;
-    background-image:
-      radial-gradient(1100px circle at 0% 0%, rgba(47, 107, 74, 0.07), transparent 60%),
-      radial-gradient(900px circle at 100% 15%, rgba(217, 154, 53, 0.08), transparent 55%);
+    background: oklch(0.968 0.008 95);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
@@ -61,23 +58,37 @@
 
 @layer components {
   .site-section {
-    padding: 5rem 1.5rem;
+    padding: clamp(4rem, 8vw, 6rem) 1.5rem;
     display: flex;
     justify-content: center;
+  }
+
+  .band-cream {
+    background-color: oklch(0.968 0.008 95);
+  }
+
+  .band-green {
+    background-color: oklch(0.955 0.016 150);
+    background-image: radial-gradient(40rem 30rem at 100% 0%, oklch(0.72 0.12 150 / 14%), transparent 70%);
+  }
+
+  .band-ochre {
+    background-color: oklch(0.96 0.02 90);
+    background-image: radial-gradient(40rem 30rem at 0% 100%, oklch(0.78 0.14 80 / 16%), transparent 70%);
+  }
+
+  .band-lime {
+    background-color: oklch(0.958 0.018 125);
+    background-image: radial-gradient(40rem 30rem at 100% 100%, oklch(0.82 0.15 125 / 15%), transparent 70%);
   }
 
   .section-inner {
     width: 100%;
     max-width: 72rem;
-    background: #fffdf8;
-    border: 1px solid rgba(22, 40, 31, 0.07);
-    border-radius: 1.5rem;
-    box-shadow: 0 1px 2px rgba(22, 40, 31, 0.04), 0 16px 36px rgba(22, 40, 31, 0.08);
-    padding: clamp(1.75rem, 4vw, 3rem);
   }
 
   .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-display);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     margin-bottom: 0.5rem;

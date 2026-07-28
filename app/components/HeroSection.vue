@@ -32,7 +32,7 @@ const spanClasses: Record<string, string> = {
           Molenbeek, Brussel
         </span>
 
-        <h1 class="text-balance mt-4 font-serif text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        <h1 class="text-balance mt-4 font-display text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           Park Ouest
         </h1>
 
@@ -77,7 +77,7 @@ const spanClasses: Record<string, string> = {
 
         <div class="mt-4 flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <h2 class="text-balance font-serif text-xl font-bold text-white sm:text-2xl">{{ tile.title }}</h2>
+            <h2 class="text-balance font-display text-xl font-bold text-white sm:text-2xl">{{ tile.title }}</h2>
             <p class="mt-1.5 font-sans text-sm leading-snug text-white/85">{{ tile.description }}</p>
           </div>
 
