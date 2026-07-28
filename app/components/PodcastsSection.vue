@@ -66,7 +66,7 @@ function onPause() {
               </span>
               <div class="min-w-0 flex-1">
                 <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">Aflevering {{ String(i + 1).padStart(2, '0') }}</p>
-                <h3 class="mt-0.5 font-display text-lg font-bold text-park-ink">{{ ep.title }}</h3>
+                <h3 class="mt-0.5 font-body text-lg font-bold text-park-ink">{{ ep.title }}</h3>
               </div>
               <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4">
