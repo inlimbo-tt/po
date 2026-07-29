@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { heroTiles } from '~/data/content'
 
+const logoUrl = useAsset('/tiles/parkouest_logo.png')
+
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
@@ -27,7 +29,7 @@ const spanClasses: Record<string, string> = {
         <div class="hero-title-backdrop w-4/5 px-[6%] py-[7%]">
           <div
             class="mx-auto aspect-[3508/869] w-full bg-park-green-dark"
-            style="-webkit-mask-image: url('/tiles/parkouest_logo.png'); mask-image: url('/tiles/parkouest_logo.png'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"
+            :style="`-webkit-mask-image: url('${logoUrl}'); mask-image: url('${logoUrl}'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;`"
             role="img"
             aria-label="Park Ouest"
           />
