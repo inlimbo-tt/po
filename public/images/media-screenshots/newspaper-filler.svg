@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#f4f0e6"/>
+  <rect x="24" y="24" width="352" height="252" fill="#fffdf8" stroke="#d8d2c2" stroke-width="1.5"/>
+
+  <text x="200" y="62" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="30" letter-spacing="2" fill="#16281f">NIEUWS</text>
+  <line x1="40" y1="76" x2="360" y2="76" stroke="#16281f" stroke-width="2"/>
+  <line x1="40" y1="80" x2="360" y2="80" stroke="#16281f" stroke-width="0.75"/>
+
+  <rect x="40" y="94" width="150" height="96" fill="#e7e1d1"/>
+  <path d="M60 150 L95 118 L120 140 L145 112 L170 150 Z" fill="#c9c1a8"/>
+  <circle cx="70" cy="112" r="9" fill="#d8d2c2"/>
+
+  <rect x="204" y="94" width="156" height="9" fill="#16281f"/>
+  <rect x="204" y="110" width="156" height="6" fill="#a9a290"/>
+  <rect x="204" y="122" width="156" height="6" fill="#a9a290"/>
+  <rect x="204" y="134" width="120" height="6" fill="#a9a290"/>
+
+  <rect x="204" y="154" width="156" height="6" fill="#c9c1a8"/>
+  <rect x="204" y="166" width="156" height="6" fill="#c9c1a8"/>
+  <rect x="204" y="178" width="100" height="6" fill="#c9c1a8"/>
+
+  <line x1="40" y1="204" x2="360" y2="204" stroke="#d8d2c2" stroke-width="1"/>
+
+  <rect x="40" y="216" width="97" height="6" fill="#c9c1a8"/>
+  <rect x="40" y="228" width="97" height="6" fill="#c9c1a8"/>
+  <rect x="40" y="240" width="70" height="6" fill="#c9c1a8"/>
+
+  <rect x="151" y="216" width="97" height="6" fill="#c9c1a8"/>
+  <rect x="151" y="228" width="97" height="6" fill="#c9c1a8"/>
+  <rect x="151" y="240" width="60" height="6" fill="#c9c1a8"/>
+
+  <rect x="262" y="216" width="98" height="6" fill="#c9c1a8"/>
+  <rect x="262" y="228" width="98" height="6" fill="#c9c1a8"/>
+  <rect x="262" y="240" width="80" height="6" fill="#c9c1a8"/>
+
+  <text x="200" y="266" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" letter-spacing="1" fill="#8a8371">GEEN VOORBEELD BESCHIKBAAR</text>
+</svg>

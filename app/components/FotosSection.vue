@@ -14,10 +14,6 @@ function next() {
   activeIndex.value = activeIndex.value === photos.length - 1 ? 0 : activeIndex.value + 1
 }
 
-function goTo(i: number) {
-  activeIndex.value = i
-}
-
 function toggleZoom() {
   zoomed.value = !zoomed.value
 }
@@ -44,21 +40,24 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <section id="fotos" class="site-section">
-    <div class="section-inner">
-      <h2 class="section-title">Foto's</h2>
+  <section id="fotos" class="site-section band-cream">
+    <div v-reveal class="section-inner">
+      <span class="inline-block rounded-full bg-park-green/12 px-3 py-1 text-xs font-bold tracking-wide text-park-green uppercase">
+        Galerij
+      </span>
+      <h2 class="section-title mt-3">Foto's</h2>
       <p class="section-lead">
         Blader door foto's van Park Ouest — het groen, de paden en de mensen die er samenkomen.
       </p>
 
       <div
-        class="relative mx-auto w-full max-w-3xl"
+        class="relative mx-auto w-full max-w-3xl rounded-3xl bg-park-green p-3 shadow-lg sm:p-4"
         @touchstart="onTouchStart"
         @touchend="onTouchEnd"
       >
         <button
           type="button"
-          class="block w-full cursor-zoom-in overflow-hidden rounded-2xl shadow-[0_8px_32px_rgba(22,40,31,0.15)]"
+          class="block w-full cursor-zoom-in overflow-hidden rounded-2xl"
           aria-label="Klik om in te zoomen"
           @click="toggleZoom"
         >
@@ -69,35 +68,26 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           >
         </button>
 
-        <button
-          v-if="photos.length > 1"
-          type="button"
-          class="absolute top-1/2 left-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white sm:-left-5"
-          aria-label="Vorige foto"
-          @click.stop="prev"
-        >
-          ←
-        </button>
-        <button
-          v-if="photos.length > 1"
-          type="button"
-          class="absolute top-1/2 right-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white sm:-right-5"
-          aria-label="Volgende foto"
-          @click.stop="next"
-        >
-          →
-        </button>
-
-        <div class="mt-4 flex flex-wrap justify-center gap-2">
-          <button
-            v-for="(photo, i) in photos"
-            :key="photo"
-            type="button"
-            class="h-2.5 w-2.5 rounded-full transition-colors"
-            :class="i === activeIndex ? 'bg-park-green' : 'bg-park-ink/20'"
-            :aria-label="`Ga naar foto ${i + 1}`"
-            @click="goTo(i)"
-          />
+        <div class="mt-3 flex items-center justify-between px-1">
+          <span class="text-sm font-semibold text-white/80">{{ activeIndex + 1 }} / {{ photos.length }}</span>
+          <div v-if="photos.length > 1" class="flex items-center gap-2">
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+              aria-label="Vorige foto"
+              @click="prev"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+              aria-label="Volgende foto"
+              @click="next"
+            >
+              →
+            </button>
+          </div>
         </div>
       </div>
     </div>

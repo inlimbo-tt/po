@@ -1,18 +1,22 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Fraunces', Georgia, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-marker: 'Permanent Marker', cursive;
+  --font-body: 'PT Serif', Georgia, serif;
 
   --color-park-bg: #C6CFC2;
   --color-park-pill: #3d8b5a;
   --color-park-pill-hover: #2f7048;
-  --color-park-cream: #eef2e3;
+  --color-park-cream: #fbf7f0;
   --color-park-ink: #16281f;
   --color-park-green: #2f6b4a;
   --color-park-green-dark: #1f4a37;
   --color-park-green-light: #92bb62;
   --color-park-amber: #d99a35;
+  --color-park-teal: #1a6b8a;
+  --color-park-teal-dark: #114a5f;
 }
 
 @layer base {
@@ -28,20 +32,10 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     color: #16281f;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-  }
-
-  .app-bg-layer {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-color: #eef2e3;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   img {
@@ -65,24 +59,52 @@
 
 @layer components {
   .site-section {
-    padding: 5rem 1.5rem;
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 4vw, 1.5rem);
+    border-radius: 2.5rem;
+  }
+
+  .site-section:not(:first-of-type) {
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .band-cream {
+    background-color: oklch(0.968 0.008 95 / 82%);
+  }
+
+  .band-green {
+    background-color: oklch(0.955 0.016 150 / 80%);
+    background-image: radial-gradient(40rem 30rem at 100% 0%, oklch(0.72 0.12 150 / 20%), transparent 70%);
+  }
+
+  .band-ochre {
+    background-color: oklch(0.96 0.02 90 / 80%);
+    background-image: radial-gradient(40rem 30rem at 0% 100%, oklch(0.78 0.14 80 / 22%), transparent 70%);
+  }
+
+  .band-lime {
+    background-color: oklch(0.958 0.018 125 / 80%);
+    background-image: radial-gradient(40rem 30rem at 100% 100%, oklch(0.82 0.15 125 / 20%), transparent 70%);
+  }
+
+  .park-bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: oklch(0.968 0.008 95);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .section-inner {
     width: 100%;
-    max-width: 1100px;
-    background: rgba(238, 242, 227, 0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 2rem;
-    box-shadow: 0 24px 60px rgba(22, 40, 31, 0.18);
-    padding: clamp(1.75rem, 4vw, 3rem);
   }
 
   .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-body);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -90,11 +112,32 @@
   }
 
   .section-lead {
-    font-size: 1rem;
-    color: #4a5a4f;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: #345043;
     max-width: 640px;
     margin-bottom: 2.5rem;
     line-height: 1.7;
+  }
+
+  .hero-title-backdrop {
+    background: rgba(245, 239, 216, 0.82);
+    border-radius: 58% 42% 52% 48% / 48% 55% 45% 52%;
+    box-shadow: 0 8px 28px rgba(18, 46, 35, 0.14);
+  }
+
+  @supports (backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px)) {
+    .hero-title-backdrop {
+      background: rgba(245, 239, 216, 0.72);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title-backdrop {
+      border-radius: 2rem;
+    }
   }
 
   .back-to-top {
@@ -126,5 +169,24 @@
   .back-to-top:hover {
     transform: translateY(-2px);
     background: #2f6b4a;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

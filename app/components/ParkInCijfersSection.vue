@@ -44,47 +44,49 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <section id="park-in-cijfers" class="site-section">
-    <div class="section-inner">
+  <section id="park-in-cijfers" class="site-section band-cream">
+    <div v-reveal class="section-inner">
       <h2 class="section-title">{{ parkInfographic.title }}</h2>
       <p class="section-lead">{{ parkInfographic.description }}</p>
 
       <div
-        class="relative mx-auto w-full max-w-3xl"
+        class="relative mx-auto w-full max-w-3xl rounded-3xl bg-park-teal p-3 shadow-lg sm:p-4"
         @touchstart="onTouchStart"
         @touchend="onTouchEnd"
       >
-        <button
-          type="button"
-          class="block w-full cursor-zoom-in overflow-hidden rounded-2xl shadow-[0_8px_32px_rgba(22,40,31,0.15)]"
-          aria-label="Klik om in te zoomen"
-          @click="toggleZoom"
-        >
-          <img
-            :src="useAsset(parkInfographics[activeIndex])"
-            :alt="`Infographic Park Ouest ${activeIndex + 1}`"
-            class="aspect-[4/3] w-full object-cover"
+        <div class="relative">
+          <button
+            type="button"
+            class="flex h-[55vh] w-full max-h-[560px] cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl bg-park-cream"
+            aria-label="Klik om in te zoomen"
+            @click="toggleZoom"
           >
-        </button>
+            <img
+              :src="useAsset(parkInfographics[activeIndex])"
+              :alt="`Infographic Park Ouest ${activeIndex + 1}`"
+              class="max-h-full max-w-full object-contain"
+            >
+          </button>
 
-        <button
-          v-if="parkInfographics.length > 1"
-          type="button"
-          class="absolute top-1/2 left-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white sm:-left-5"
-          aria-label="Vorige infographic"
-          @click.stop="prev"
-        >
-          ←
-        </button>
-        <button
-          v-if="parkInfographics.length > 1"
-          type="button"
-          class="absolute top-1/2 right-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white sm:-right-5"
-          aria-label="Volgende infographic"
-          @click.stop="next"
-        >
-          →
-        </button>
+          <button
+            v-if="parkInfographics.length > 1"
+            type="button"
+            class="absolute top-1/2 left-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white"
+            aria-label="Vorige infographic"
+            @click.stop="prev"
+          >
+            ←
+          </button>
+          <button
+            v-if="parkInfographics.length > 1"
+            type="button"
+            class="absolute top-1/2 right-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white"
+            aria-label="Volgende infographic"
+            @click.stop="next"
+          >
+            →
+          </button>
+        </div>
 
         <div v-if="parkInfographics.length > 1" class="mt-4 flex justify-center gap-2">
           <button
@@ -92,7 +94,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             :key="img"
             type="button"
             class="h-2.5 w-2.5 rounded-full transition-colors"
-            :class="i === activeIndex ? 'bg-park-green' : 'bg-park-ink/20'"
+            :class="i === activeIndex ? 'bg-white' : 'bg-white/30'"
             :aria-label="`Ga naar infographic ${i + 1}`"
             @click="goTo(i)"
           />

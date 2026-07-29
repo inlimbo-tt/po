@@ -22,45 +22,52 @@ function closeViewer() {
 </script>
 
 <template>
-  <section id="publications" class="site-section">
-    <div class="section-inner">
-      <h2 class="section-title">Publications</h2>
+  <section id="publications" class="site-section band-lime">
+    <div v-reveal class="section-inner">
+      <h2 class="section-title">Publicaties</h2>
       <p class="section-lead">{{ publicationsBlurb }}</p>
 
-      <div class="flex flex-col gap-6">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div
           v-for="pub in publications"
           :key="pub.id"
-          class="rounded-[1.75rem] bg-white p-4 shadow-[0_8px_32px_rgba(22,40,31,0.08)] sm:p-6"
+          class="group flex flex-col overflow-hidden rounded-2xl border border-park-ink/8 bg-white shadow-md transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-xl"
         >
-          <span class="inline-block rounded-full bg-park-green px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase">
-            Read
-          </span>
-
-          <div class="mt-4 flex flex-col gap-6 sm:flex-row sm:items-center">
-            <div class="aspect-square w-full shrink-0 overflow-hidden rounded-2xl ring-1 ring-black/20 sm:w-64" :style="{ backgroundColor: pub.coverColor }">
-              <img :src="useAsset(pub.tileImage)" :alt="pub.title" class="h-full w-full object-cover">
+          <div class="p-3" :style="{ backgroundColor: pub.coverColor }">
+            <div class="aspect-[4/3] overflow-hidden rounded-xl">
+              <img
+                :src="useAsset(pub.tileImage)"
+                :alt="pub.title"
+                class="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
+              >
             </div>
+          </div>
 
-            <div class="min-w-0">
-              <p class="text-xs font-bold tracking-widest text-park-green uppercase">{{ pub.title }}</p>
-              <h3 class="mt-2 font-serif text-2xl font-bold text-park-ink sm:text-3xl">{{ pub.title }}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-park-ink/70 sm:text-base">{{ pub.description }}</p>
+          <div class="flex flex-1 flex-col p-5 sm:p-6">
+            <h3 class="font-body text-2xl font-bold text-park-ink">{{ pub.title }}</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-park-ink/70 sm:text-base">{{ pub.description }}</p>
 
-              <div class="mt-6 flex flex-wrap gap-3">
-                <button
-                  class="rounded-full bg-park-green px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-park-green-dark"
-                  @click="readPdf(pub)"
-                >
-                  Read online
-                </button>
-                <button
-                  class="rounded-full border border-park-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-park-ink transition-colors hover:bg-park-cream"
-                  @click="downloadPdf(pub)"
-                >
-                  Download PDF
-                </button>
-              </div>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-full bg-park-green px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+                @click="readPdf(pub)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+                  <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H9v14H5.5A1.5 1.5 0 0 1 4 15.5v-11ZM11 3h3.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H11V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                </svg>
+                Lees online
+              </button>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-full border border-park-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-park-ink transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+                @click="downloadPdf(pub)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+                  <path d="M10 3v10m0 0 4-4m-4 4-4-4M4 16.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Download PDF
+              </button>
             </div>
           </div>
         </div>
