@@ -21,13 +21,13 @@ const accentColors = ['#2f6b4a', '#1a6b8a', '#d99a35', '#92bb62', '#1f4a37']
           rel="noopener noreferrer"
           class="group flex flex-col overflow-hidden rounded-2xl border border-park-ink/8 bg-white shadow-md transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
         >
-          <div
-            class="flex aspect-[3/2] w-full items-center justify-center"
-            :style="{ backgroundColor: accentColors[i % accentColors.length] }"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-10 w-10 text-white/50 transition-transform duration-500 motion-safe:group-hover:scale-110">
-              <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h9A1.5 1.5 0 0 1 16 5.5V17a2 2 0 0 0 2 2m-16-.5A1.5 1.5 0 0 0 5.5 20H18a2 2 0 0 1-2-2M8 8h5M8 11.5h5M8 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+          <div class="aspect-[3/2] w-full overflow-hidden bg-park-cream">
+            <img
+              :src="useAsset(item.thumbnail)"
+              :alt="`Screenshot van het artikel '${item.title}' op ${item.source}`"
+              loading="lazy"
+              class="h-full w-full object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-105"
+            >
           </div>
 
           <div class="flex flex-1 flex-col p-5">

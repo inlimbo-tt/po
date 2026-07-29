@@ -32,14 +32,11 @@ export interface MediaItem {
   thumbnail: string
 }
 
-function mshotsThumbnail(url: string): string {
-  return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1000&h=750`
-}
-
-// A handful of publishers (Le Soir, NYT) block the mshots screenshot bot,
-// so those items fall back to the live (occasionally blocked) endpoint
-// instead of a locally cached image.
+// A handful of publishers (Le Soir, NYT) block screenshot bots, so those
+// items have no cached screenshot and fall back to a generic local filler
+// instead of live-loading from a third party.
 const NO_LOCAL_SCREENSHOT = new Set(['m2', 'm4', 'm17', 'm27'])
+const NEWSPAPER_FILLER = '/images/media-screenshots/newspaper-filler.svg'
 
 export const heroTiles: HeroTile[] = [
   {
@@ -109,9 +106,8 @@ export const parkInfographic = {
 }
 
 export const parkInfographics: string[] = [
-  '/images/infographics/stats-1.jpg',
-  '/images/infographics/stats-2.jpg',
-  '/images/infographics/stats-3.jpg',
+  '/images/infographics/parkstats.png',
+  '/images/infographics/visitors.jpg',
 ]
 
 export const podcastEpisodes: PodcastEpisode[] = [
@@ -191,18 +187,20 @@ const rawMediaItems: { title: string; source: string; url: string }[] = [
   { title: 'Molenbeek moves on from terror', source: 'The New York Times', url: 'https://www.nytimes.com/2026/03/22/world/europe/brussels-terror-molenbeek.html' },
 ]
 
-export const mediaItems: MediaItem[] = rawMediaItems.map((item, i) => {
-  const id = `m${i + 1}`
-  return {
-    id,
-    title: item.title,
-    source: item.source,
-    url: item.url,
-    thumbnail: NO_LOCAL_SCREENSHOT.has(id)
-      ? mshotsThumbnail(item.url)
-      : `/images/media-screenshots/${id}.jpg`,
-  }
-})
+export const mediaItems: MediaItem[] = rawMediaItems
+  .map((item, i) => {
+    const id = `m${i + 1}`
+    return {
+      id,
+      title: item.title,
+      source: item.source,
+      url: item.url,
+      thumbnail: NO_LOCAL_SCREENSHOT.has(id)
+        ? NEWSPAPER_FILLER
+        : `/images/media-screenshots/${id}.jpg`,
+    }
+  })
+  .sort((a, b) => Number(a.thumbnail === NEWSPAPER_FILLER) - Number(b.thumbnail === NEWSPAPER_FILLER))
 
 export const heroImage = '/images/hero.jpg'
 
