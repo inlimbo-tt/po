@@ -23,7 +23,7 @@ const spanClasses: Record<string, string> = {
 </script>
 
 <template>
-  <header class="relative mx-auto max-w-6xl px-4 pt-10 pb-4 sm:px-6 sm:pt-14 lg:px-8">
+  <section class="relative mx-auto max-w-6xl px-4 pt-10 pb-4 sm:px-6 sm:pt-14 lg:px-8">
     <div
       class="pointer-events-none absolute inset-0 rounded-[2.5rem]"
       style="background: rgba(18, 46, 35, 0.14);"
@@ -41,6 +41,22 @@ const spanClasses: Record<string, string> = {
           />
         </div>
       </h1>
+
+      <div class="hero-tagline-backdrop mx-auto mt-6 max-w-xl px-6 py-4 sm:px-8 sm:py-5">
+        <p class="text-balance font-heading text-base text-park-ink sm:text-lg">
+          {{ t.hero.tagline }}
+        </p>
+        <button
+          type="button"
+          class="mt-4 inline-flex items-center gap-2 rounded-full bg-park-amber px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-amber-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+          @click="scrollToSection('publications')"
+        >
+          {{ t.hero.cta }}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <nav
@@ -83,5 +99,5 @@ const spanClasses: Record<string, string> = {
         </div>
       </button>
     </nav>
-  </header>
+  </section>
 </template>

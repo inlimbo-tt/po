@@ -9,6 +9,10 @@ import type { Locale } from '~/composables/useLocale'
 export const ui = {
   nl: {
     nav: { ariaLabel: 'Hoofdnavigatie' },
+    hero: {
+      tagline: 'Een tijdelijk park in Molenbeek, gemaakt door en voor de buurt — ruimte voor ontmoeting, groen en verhalen.',
+      cta: 'Lees het jaarrapport',
+    },
     publications: {
       title: 'Publicaties',
       readOnline: 'Lees online',
@@ -65,6 +69,10 @@ export const ui = {
   },
   fr: {
     nav: { ariaLabel: 'Navigation principale' },
+    hero: {
+      tagline: 'Un parc temporaire à Molenbeek, conçu par et pour le quartier — un lieu de rencontre, de verdure et d\'histoires.',
+      cta: 'Lire le rapport annuel',
+    },
     publications: {
       title: 'Publications',
       readOnline: 'Lire en ligne',
