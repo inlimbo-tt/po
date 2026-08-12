@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useT } from '~/i18n/ui'
+import { useAudioBarActive } from '~/composables/useAudioBar'
 
 const t = useT()
+const audioBarActive = useAudioBarActive()
 const showBackToTop = ref(false)
 
 function scrollToTop() {
@@ -32,7 +34,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
     <button
       class="back-to-top"
-      :class="{ visible: showBackToTop }"
+      :class="{ visible: showBackToTop, 'above-audio-bar': audioBarActive }"
       :aria-label="t.backToTop.ariaLabel"
       @click="scrollToTop"
     >

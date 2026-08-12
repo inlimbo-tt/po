@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { getPodcastEpisodes } from '~/data/content'
 import type { PodcastEpisode } from '~/data/content'
 import { useT } from '~/i18n/ui'
+import { useAudioBarActive } from '~/composables/useAudioBar'
 
 const { locale } = useLocale()
 const t = useT()
@@ -12,6 +13,14 @@ const currentEpisode = ref<PodcastEpisode | null>(null)
 const audioRef = ref<HTMLAudioElement | null>(null)
 const isPlaying = ref(false)
 const showSummaryViewer = ref(false)
+
+const audioBarActive = useAudioBarActive()
+watch(currentEpisode, (ep) => {
+  audioBarActive.value = ep !== null
+})
+onUnmounted(() => {
+  audioBarActive.value = false
+})
 
 const summaryPdfUrl = '/pdfs/summary_participation_NL.pdf'
 const currentTitle = computed(() => currentEpisode.value?.title ?? '')

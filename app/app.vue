@@ -12,7 +12,7 @@ onMounted(initLocale)
   <div>
     <div class="park-bg-layer" :style="{ backgroundImage: `url(${bg})` }" aria-hidden="true" />
     <NuxtRouteAnnouncer />
-    <LanguageSwitcher />
+    <SiteHeader />
     <NuxtPage />
   </div>
 </template>

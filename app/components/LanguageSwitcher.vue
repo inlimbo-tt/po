@@ -30,27 +30,23 @@ const t = useT()
 
 <style scoped>
 .lang-switcher {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 100;
   display: flex;
   gap: 2px;
   padding: 3px;
   border-radius: 999px;
-  background: rgba(22, 40, 31, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(18, 46, 35, 0.25);
+  background: rgba(22, 40, 31, 0.9);
+  box-shadow: 0 2px 8px rgba(18, 46, 35, 0.18);
 }
 
 .lang-btn {
-  padding: 0.35rem 0.7rem;
+  min-width: 2.75rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.7rem;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   transition: background 0.2s, color 0.2s;
 }
 
@@ -61,12 +57,5 @@ const t = useT()
 
 .lang-btn:not(.active):hover {
   color: #fff;
-}
-
-@media (min-width: 640px) {
-  .lang-switcher {
-    top: 1.25rem;
-    right: 1.25rem;
-  }
 }
 </style>
