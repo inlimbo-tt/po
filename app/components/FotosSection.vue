@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { photos } from '~/data/content'
+import { useT } from '~/i18n/ui'
+
+const t = useT()
 
 const activeIndex = ref(0)
 const zoomed = ref(false)
@@ -43,11 +46,11 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   <section id="fotos" class="site-section band-cream">
     <div v-reveal class="section-inner">
       <span class="inline-block rounded-full bg-park-green/12 px-3 py-1 text-xs font-bold tracking-wide text-park-green uppercase">
-        Galerij
+        {{ t.fotos.pill }}
       </span>
-      <h2 class="section-title mt-3">Foto's</h2>
+      <h2 class="section-title mt-3">{{ t.fotos.title }}</h2>
       <p class="section-lead">
-        Blader door foto's van Park Ouest — het groen, de paden en de mensen die er samenkomen.
+        {{ t.fotos.lead }}
       </p>
 
       <div
@@ -58,12 +61,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         <button
           type="button"
           class="block w-full cursor-zoom-in overflow-hidden rounded-2xl"
-          aria-label="Klik om in te zoomen"
+          :aria-label="t.fotos.zoomAria"
           @click="toggleZoom"
         >
           <img
             :src="useAsset(photos[activeIndex])"
-            :alt="`Park Ouest foto ${activeIndex + 1}`"
+            :alt="t.fotos.altTemplate(activeIndex + 1)"
             class="aspect-[4/3] w-full object-cover"
           >
         </button>
@@ -74,7 +77,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             <button
               type="button"
               class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
-              aria-label="Vorige foto"
+              :aria-label="t.fotos.prevAria"
               @click="prev"
             >
               ←
@@ -82,7 +85,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             <button
               type="button"
               class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
-              aria-label="Volgende foto"
+              :aria-label="t.fotos.nextAria"
               @click="next"
             >
               →
@@ -93,7 +96,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     </div>
 
     <div v-if="zoomed" class="photo-lightbox" @click="zoomed = false">
-      <img :src="useAsset(photos[activeIndex])" :alt="`Park Ouest foto ${activeIndex + 1}`">
+      <img :src="useAsset(photos[activeIndex])" :alt="t.fotos.altTemplate(activeIndex + 1)">
     </div>
   </section>
 </template>

@@ -2,6 +2,9 @@
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import * as pdfjsLib from 'pdfjs-dist'
 import { PageFlip } from 'page-flip'
+import { useT } from '~/i18n/ui'
+
+const t = useT()
 
 const props = defineProps<{
   pdfUrl: string
@@ -52,7 +55,7 @@ async function renderPdf() {
     await nextTick()
     initFlipbook(pageImages)
   } catch (e) {
-    error.value = 'Kon PDF niet laden. Controleer of het bestand bestaat.'
+    error.value = t.value.pdfViewer.error
     console.error(e)
   } finally {
     loading.value = false
@@ -68,7 +71,7 @@ function initFlipbook(images: string[]) {
     page.className = 'flip-page'
     const img = document.createElement('img')
     img.src = src
-    img.alt = 'PDF pagina'
+    img.alt = t.value.pdfViewer.pageAlt
     page.appendChild(img)
     bookRef.value!.appendChild(page)
   })
@@ -133,7 +136,7 @@ watch(() => props.pdfUrl, renderPdf)
     <div class="zine-modal">
       <header class="zine-header">
         <h3>{{ title }}</h3>
-        <button class="close-btn" aria-label="Sluiten" @click="emit('close')">✕</button>
+        <button class="close-btn" :aria-label="t.pdfViewer.closeAria" @click="emit('close')">✕</button>
       </header>
 
       <div v-if="loading" class="zine-status">
@@ -141,7 +144,7 @@ watch(() => props.pdfUrl, renderPdf)
           <div class="zine-progress-fill" :style="{ width: `${progressPercent}%` }" />
         </div>
         <p class="zine-progress-label">
-          {{ totalPages > 0 ? `Pagina ${loadedPages} van ${totalPages} laden… (${progressPercent}%)` : 'PDF openen…' }}
+          {{ totalPages > 0 ? t.pdfViewer.loadingPage(loadedPages, totalPages, progressPercent) : t.pdfViewer.opening }}
         </p>
       </div>
       <div v-else-if="error" class="zine-status error">{{ error }}</div>
@@ -149,10 +152,10 @@ watch(() => props.pdfUrl, renderPdf)
       <div v-show="!loading && !error" class="zine-body">
         <div ref="bookRef" class="flip-book" />
         <div class="zine-controls">
-          <button @click="prevPage">← Vorige</button>
-          <button @click="nextPage">Volgende →</button>
+          <button @click="prevPage">{{ t.pdfViewer.prev }}</button>
+          <button @click="nextPage">{{ t.pdfViewer.next }}</button>
         </div>
-        <p class="zine-hint">Sleep of klik om te bladeren</p>
+        <p class="zine-hint">{{ t.pdfViewer.hint }}</p>
       </div>
     </div>
   </div>

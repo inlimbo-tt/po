@@ -1,3 +1,5 @@
+import type { Locale } from '~/composables/useLocale'
+
 export interface HeroTile {
   id: string
   pill: string
@@ -38,7 +40,9 @@ export interface MediaItem {
 const NO_LOCAL_SCREENSHOT = new Set(['m2', 'm4', 'm17', 'm27'])
 const NEWSPAPER_FILLER = '/images/media-screenshots/newspaper-filler.svg'
 
-export const heroTiles: HeroTile[] = [
+// --- Hero tiles ------------------------------------------------------------
+
+const heroTilesNl: HeroTile[] = [
   {
     id: 'publications',
     pill: 'READ',
@@ -81,7 +85,37 @@ export const heroTiles: HeroTile[] = [
   },
 ]
 
-export const publications: Publication[] = [
+const heroTilesFr: Record<string, { title: string; description: string }> = {
+  publications: {
+    title: 'Publications',
+    description: 'Parcourez notre rapport annuel et les Key Elements.',
+  },
+  'park-in-cijfers': {
+    title: 'Park Ouest en chiffres',
+    description: 'Un aperçu visuel des statistiques clés du parc.',
+  },
+  podcasts: {
+    title: 'Podcasts',
+    description: "Écoutez des conversations sur l'avenir et l'histoire du parc.",
+  },
+  fotos: {
+    title: 'Galerie photo',
+    description: 'Découvrez des photos du parc à travers les saisons.',
+  },
+  media: {
+    title: 'Médias',
+    description: "Suivez l'histoire du parc dans la presse et sur les réseaux sociaux.",
+  },
+}
+
+export function getHeroTiles(locale: Locale): HeroTile[] {
+  if (locale === 'nl') return heroTilesNl
+  return heroTilesNl.map(tile => ({ ...tile, ...heroTilesFr[tile.id] }))
+}
+
+// --- Publications ------------------------------------------------------------
+
+const publicationsNl: Publication[] = [
   {
     id: 'jaarrapport',
     title: 'Jaarrapport',
@@ -100,9 +134,36 @@ export const publications: Publication[] = [
   },
 ]
 
-export const parkInfographic = {
+const publicationsFr: Record<string, { title: string; description: string }> = {
+  jaarrapport: {
+    title: 'Rapport annuel',
+    description: "Le rapport annuel complet de Park Ouest avec les développements, les chiffres et la vision d'avenir.",
+  },
+  'key-elements': {
+    title: 'Key Elements',
+    description: 'Un aperçu compact de notre analyse du parc, de ses visiteurs et du quartier.',
+  },
+}
+
+export function getPublications(locale: Locale): Publication[] {
+  if (locale === 'nl') return publicationsNl
+  return publicationsNl.map(pub => ({ ...pub, ...publicationsFr[pub.id] }))
+}
+
+// --- Park in cijfers ------------------------------------------------------------
+
+const parkInfographicNl = {
   title: 'Park Ouest in cijfers',
   description: 'Een visueel overzicht van de belangrijkste statistieken van Park Ouest.',
+}
+
+const parkInfographicFr = {
+  title: 'Park Ouest en chiffres',
+  description: 'Un aperçu visuel des statistiques clés de Park Ouest.',
+}
+
+export function getParkInfographic(locale: Locale) {
+  return locale === 'nl' ? parkInfographicNl : parkInfographicFr
 }
 
 export const parkInfographics: string[] = [
@@ -110,7 +171,9 @@ export const parkInfographics: string[] = [
   '/images/infographics/visitors_NL.jpg',
 ]
 
-export const podcastEpisodes: PodcastEpisode[] = [
+// --- Podcasts ------------------------------------------------------------
+
+const podcastEpisodesNl: PodcastEpisode[] = [
   {
     id: 'ep1',
     title: 'Just Like Home',
@@ -141,6 +204,32 @@ export const podcastEpisodes: PodcastEpisode[] = [
   },
 ]
 
+const podcastEpisodesFr: Record<string, { description: string; duration: string }> = {
+  ep1: {
+    description: 'Que représente le parc pour ses visiteurs ? Et surtout, que recherchent-ils ?',
+    duration: '28 min',
+  },
+  ep2: {
+    description: "Clôtures, collines, portes et fenêtres : à quel point le parc doit-il être ouvert ?",
+    duration: '52 min',
+  },
+  ep3: {
+    description: 'Rêver du parc...',
+    duration: '1h 13 min',
+  },
+  ep5: {
+    description: 'Description à venir.',
+    duration: '1h 25 min',
+  },
+}
+
+export function getPodcastEpisodes(locale: Locale): PodcastEpisode[] {
+  if (locale === 'nl') return podcastEpisodesNl
+  return podcastEpisodesNl.map(ep => ({ ...ep, ...podcastEpisodesFr[ep.id] }))
+}
+
+// --- Photos ------------------------------------------------------------
+
 const photoFilenames = [
   '20251219 - LR - parcouest - cc - DECLERCK Tine -002.jpg',
   '20251219 - LR - parcouest - cc - DECLERCK Tine -004.jpg',
@@ -163,6 +252,10 @@ const photoFilenames = [
 ]
 
 export const photos: string[] = photoFilenames.map((f) => `/images/photos/${encodeURIComponent(f)}`)
+
+// --- Media (in de pers) ------------------------------------------------------------
+// Article titles/sources are citations of real, already-published pieces
+// (mixed NL/FR/EN) — left as-is regardless of site language.
 
 const rawMediaItems: { title: string; source: string; url: string }[] = [
   { title: "Bruxelles M'habite", source: 'Radio Panik', url: 'https://www.radiopanik.org/media/sounds/bruxelles-m-habite/67_18362__0.mp3' },
@@ -211,5 +304,12 @@ export const mediaItems: MediaItem[] = rawMediaItems
 
 export const heroImage = '/images/hero.jpg'
 
-export const publicationsBlurb =
+const publicationsBlurbNl =
   'Ontdek onze publicaties over Park Ouest. Kies een document om te downloaden of blader er doorheen als een digitaal boekje.'
+
+const publicationsBlurbFr =
+  'Découvrez nos publications sur Park Ouest. Choisissez un document à télécharger ou feuilletez-le comme un livret numérique.'
+
+export function getPublicationsBlurb(locale: Locale): string {
+  return locale === 'nl' ? publicationsBlurbNl : publicationsBlurbFr
+}

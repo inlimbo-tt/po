@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { podcastEpisodes } from '~/data/content'
+import { getPodcastEpisodes } from '~/data/content'
 import type { PodcastEpisode } from '~/data/content'
+import { useT } from '~/i18n/ui'
+
+const { locale } = useLocale()
+const t = useT()
+const podcastEpisodes = computed(() => getPodcastEpisodes(locale.value))
 
 const currentEpisode = ref<PodcastEpisode | null>(null)
 const audioRef = ref<HTMLAudioElement | null>(null)
@@ -67,11 +72,11 @@ function downloadSummary() {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
           <path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Zm18 0a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Beluister
+        {{ t.podcasts.pill }}
       </span>
-      <h2 class="section-title mt-3">Podcasts</h2>
+      <h2 class="section-title mt-3">{{ t.podcasts.title }}</h2>
       <p class="section-lead">
-        Radio Park Ouest verzamelt de verhalen van de buurt. Elke aflevering bespreken we een aspect van hoe Park Ouest eruit zou kunnen zien. Aan de hand van de inhoud van deze podcasts tekent het ontwerpbureau de plannen van het toekomstig park. Hieronder kan je de afleveringen beluisteren. Je kan ook een korte samenvatting lezen in pdf vorm.
+        {{ t.podcasts.lead }}
       </p>
 
       <ul class="flex flex-col gap-4">
@@ -86,7 +91,7 @@ function downloadSummary() {
               {{ currentEpisode?.id === ep.id && isPlaying ? '⏸' : '▶' }}
             </span>
             <div class="min-w-0 flex-1">
-              <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">Aflevering {{ String(i + 1).padStart(2, '0') }}</p>
+              <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">{{ t.podcasts.episodeLabel }} {{ String(i + 1).padStart(2, '0') }}</p>
               <h3 class="mt-0.5 font-body text-lg font-bold text-park-ink">{{ ep.title }}</h3>
             </div>
             <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
@@ -106,8 +111,8 @@ function downloadSummary() {
           </svg>
         </span>
         <div class="min-w-0 flex-1">
-          <p class="font-body text-base font-bold text-park-ink">Samenvatting in PDF</p>
-          <p class="text-sm text-park-ink/60">Een korte samenvatting van de podcastreeks.</p>
+          <p class="font-body text-base font-bold text-park-ink">{{ t.podcasts.summaryTitle }}</p>
+          <p class="text-sm text-park-ink/60">{{ t.podcasts.summaryDesc }}</p>
         </div>
         <div class="flex flex-wrap gap-3">
           <button
@@ -118,7 +123,7 @@ function downloadSummary() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
               <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H9v14H5.5A1.5 1.5 0 0 1 4 15.5v-11ZM11 3h3.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H11V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
             </svg>
-            Lees online
+            {{ t.publications.readOnline }}
           </button>
           <button
             type="button"
@@ -128,7 +133,7 @@ function downloadSummary() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
               <path d="M10 3v10m0 0 4-4m-4 4-4-4M4 16.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            Download PDF
+            {{ t.publications.download }}
           </button>
         </div>
       </div>
@@ -136,7 +141,7 @@ function downloadSummary() {
 
     <div v-if="currentEpisode" class="audio-bar">
       <div class="audio-bar-inner">
-        <button class="audio-play" aria-label="Afspelen/pauzeren" @click="togglePlay">
+        <button class="audio-play" :aria-label="t.podcasts.playPauseAria" @click="togglePlay">
           {{ isPlaying ? '⏸' : '▶' }}
         </button>
         <div class="audio-meta">
@@ -150,7 +155,7 @@ function downloadSummary() {
             @pause="onPause"
           />
         </div>
-        <button class="audio-close" aria-label="Speler sluiten" @click="closePlayer">✕</button>
+        <button class="audio-close" :aria-label="t.podcasts.closePlayerAria" @click="closePlayer">✕</button>
       </div>
     </div>
 
@@ -158,7 +163,7 @@ function downloadSummary() {
       <LazyPdfZineViewer
         v-if="showSummaryViewer"
         :pdf-url="useAsset(summaryPdfUrl)"
-        title="Samenvatting in PDF"
+        :title="t.podcasts.summaryTitle"
         @close="showSummaryViewer = false"
       />
     </ClientOnly>

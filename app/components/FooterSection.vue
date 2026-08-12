@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useT } from '~/i18n/ui'
+
+const t = useT()
 const toestandLogo = useAsset('/logos/toestand.svg')
 const leefmilieuLogo = useAsset('/logos/leefmilieu-brussel.svg')
 </script>
@@ -7,7 +10,7 @@ const leefmilieuLogo = useAsset('/logos/leefmilieu-brussel.svg')
   <footer class="flex justify-center px-4 py-2">
     <div class="footer-backdrop flex flex-col items-center gap-5 px-8 py-6 text-center sm:px-10 sm:py-7">
       <p class="font-body text-sm text-white/80 sm:text-base">
-        Een project van en voor de buurt, in samenwerking met
+        {{ t.footer.text }}
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
@@ -31,6 +34,10 @@ const leefmilieuLogo = useAsset('/logos/leefmilieu-brussel.svg')
           <img :src="leefmilieuLogo" alt="Leefmilieu Brussel" class="h-8 w-auto sm:h-10">
         </a>
       </div>
+
+      <p class="font-body text-sm text-white/80 sm:text-base">
+        {{ t.footer.photoCredit }}
+      </p>
     </div>
   </footer>
 </template>

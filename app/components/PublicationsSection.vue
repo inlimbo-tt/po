@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { publications, publicationsBlurb } from '~/data/content'
+import { ref, computed } from 'vue'
+import { getPublications, getPublicationsBlurb } from '~/data/content'
 import type { Publication } from '~/data/content'
+import { useT } from '~/i18n/ui'
+
+const { locale } = useLocale()
+const t = useT()
+const publications = computed(() => getPublications(locale.value))
+const publicationsBlurb = computed(() => getPublicationsBlurb(locale.value))
 
 const showViewer = ref<Publication | null>(null)
 
@@ -24,7 +30,7 @@ function closeViewer() {
 <template>
   <section id="publications" class="site-section band-lime">
     <div v-reveal class="section-inner">
-      <h2 class="section-title">Publicaties</h2>
+      <h2 class="section-title">{{ t.publications.title }}</h2>
       <p class="section-lead">{{ publicationsBlurb }}</p>
 
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -56,7 +62,7 @@ function closeViewer() {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
                   <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H9v14H5.5A1.5 1.5 0 0 1 4 15.5v-11ZM11 3h3.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H11V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
                 </svg>
-                Lees online
+                {{ t.publications.readOnline }}
               </button>
               <button
                 type="button"
@@ -66,7 +72,7 @@ function closeViewer() {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
                   <path d="M10 3v10m0 0 4-4m-4 4-4-4M4 16.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                Download PDF
+                {{ t.publications.download }}
               </button>
             </div>
           </div>

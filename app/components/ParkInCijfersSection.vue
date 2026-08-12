@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { parkInfographic, parkInfographics } from '~/data/content'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { getParkInfographic, parkInfographics } from '~/data/content'
+import { useT } from '~/i18n/ui'
+
+const { locale } = useLocale()
+const t = useT()
+const parkInfographic = computed(() => getParkInfographic(locale.value))
 
 const activeIndex = ref(0)
 const zoomed = ref(false)
@@ -58,12 +63,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           <button
             type="button"
             class="flex h-[55vh] w-full max-h-[560px] cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl bg-park-cream"
-            aria-label="Klik om in te zoomen"
+            :aria-label="t.parkInCijfers.zoomAria"
             @click="toggleZoom"
           >
             <img
               :src="useAsset(parkInfographics[activeIndex])"
-              :alt="`Infographic Park Ouest ${activeIndex + 1}`"
+              :alt="t.parkInCijfers.altTemplate(activeIndex + 1)"
               class="max-h-full max-w-full object-contain"
             >
           </button>
@@ -72,7 +77,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             v-if="parkInfographics.length > 1"
             type="button"
             class="absolute top-1/2 left-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white"
-            aria-label="Vorige infographic"
+            :aria-label="t.parkInCijfers.prevAria"
             @click.stop="prev"
           >
             ←
@@ -81,7 +86,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             v-if="parkInfographics.length > 1"
             type="button"
             class="absolute top-1/2 right-2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-park-ink shadow-md transition-colors hover:bg-white"
-            aria-label="Volgende infographic"
+            :aria-label="t.parkInCijfers.nextAria"
             @click.stop="next"
           >
             →
@@ -95,7 +100,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             type="button"
             class="h-2.5 w-2.5 rounded-full transition-colors"
             :class="i === activeIndex ? 'bg-white' : 'bg-white/30'"
-            :aria-label="`Ga naar infographic ${i + 1}`"
+            :aria-label="t.parkInCijfers.goToAria(i + 1)"
             @click="goTo(i)"
           />
         </div>
@@ -103,7 +108,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     </div>
 
     <div v-if="zoomed" class="infographic-lightbox" @click="zoomed = false">
-      <img :src="useAsset(parkInfographics[activeIndex])" :alt="`Infographic Park Ouest ${activeIndex + 1}`">
+      <img :src="useAsset(parkInfographics[activeIndex])" :alt="t.parkInCijfers.altTemplate(activeIndex + 1)">
     </div>
   </section>
 </template>

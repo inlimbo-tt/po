@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useT } from '~/i18n/ui'
 
+const t = useT()
 const showBackToTop = ref(false)
 
 function scrollToTop() {
@@ -31,7 +33,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
     <button
       class="back-to-top"
       :class="{ visible: showBackToTop }"
-      aria-label="Terug naar boven"
+      :aria-label="t.backToTop.ariaLabel"
       @click="scrollToTop"
     >
       ↑

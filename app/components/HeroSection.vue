@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { heroTiles } from '~/data/content'
+import { computed } from 'vue'
+import { getHeroTiles } from '~/data/content'
+import { useT } from '~/i18n/ui'
+
+const { locale } = useLocale()
+const t = useT()
+const heroTiles = computed(() => getHeroTiles(locale.value))
 
 const logoUrl = useAsset('/tiles/parkouest_logo.png')
 
@@ -39,7 +45,7 @@ const spanClasses: Record<string, string> = {
 
     <nav
       class="relative mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6"
-      aria-label="Hoofdnavigatie"
+      :aria-label="t.nav.ariaLabel"
     >
       <button
         v-for="tile in heroTiles"
