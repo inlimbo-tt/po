@@ -103,7 +103,7 @@
     width: 100%;
     max-width: 72rem;
     margin-inline: auto;
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-lg) clamp(1.5rem, 4vw, 2.75rem);
     border-radius: 2.5rem;
   }
 
@@ -171,7 +171,7 @@
     font-family: var(--font-heading);
     font-size: var(--text-subheading);
     color: #345043;
-    max-width: 640px;
+    max-width: min(48rem, 85%);
     margin-bottom: var(--space-xl);
     line-height: 1.7;
   }
