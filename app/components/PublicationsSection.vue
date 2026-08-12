@@ -59,7 +59,7 @@ function closeViewer() {
                 class="inline-flex items-center gap-2 rounded-full bg-park-green px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
                 @click="readPdf(pub)"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
                   <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H9v14H5.5A1.5 1.5 0 0 1 4 15.5v-11ZM11 3h3.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H11V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
                 </svg>
                 {{ t.publications.readOnline }}
@@ -69,7 +69,7 @@ function closeViewer() {
                 class="inline-flex items-center gap-2 rounded-full border border-park-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-park-ink transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
                 @click="downloadPdf(pub)"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
                   <path d="M10 3v10m0 0 4-4m-4 4-4-4M4 16.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 {{ t.publications.download }}

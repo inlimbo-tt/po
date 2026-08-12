@@ -5,7 +5,7 @@ import { useT } from '~/i18n/ui'
 const t = useT()
 // Alternates between the two semantic accents (identity green / listen-read-act amber)
 // so publisher tags add rhythm without introducing off-palette hues.
-const accentColors = ['#2f6b4a', '#b9791f']
+const accentColors = ['#2f6b4a', '#9c631a']
 </script>
 
 <template>
@@ -39,7 +39,7 @@ const accentColors = ['#2f6b4a', '#b9791f']
             <h3 class="mt-2 flex-1 text-balance font-heading text-lg leading-snug font-bold text-park-ink">{{ item.title }}</h3>
             <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-park-green transition-transform duration-300 motion-safe:group-hover:translate-x-1">
               {{ t.media.readArticle }}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
                 <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </span>

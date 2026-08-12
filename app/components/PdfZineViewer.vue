@@ -198,7 +198,7 @@ watch(() => props.pdfUrl, renderPdf)
 .close-btn {
   color: #aaa;
   font-size: 1.25rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.6rem 0.75rem;
   transition: color 0.2s;
 }
 

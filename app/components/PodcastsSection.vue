@@ -77,8 +77,8 @@ function downloadSummary() {
 <template>
   <section id="podcasts" class="site-section surface-accent-green" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''">
     <div v-reveal class="section-inner">
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-amber uppercase">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-ink uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5" aria-hidden="true">
           <path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Zm18 0a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         {{ t.podcasts.pill }}
@@ -96,7 +96,7 @@ function downloadSummary() {
             :class="currentEpisode?.id === ep.id ? 'ring-2 ring-park-amber' : ''"
             @click="playEpisode(ep)"
           >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-park-amber text-white transition-transform duration-300 motion-safe:hover:scale-105">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-park-amber text-park-ink transition-transform duration-300 motion-safe:hover:scale-105">
               {{ currentEpisode?.id === ep.id && isPlaying ? '⏸' : '▶' }}
             </span>
             <div class="min-w-0 flex-1">
@@ -104,7 +104,7 @@ function downloadSummary() {
               <h3 class="mt-0.5 font-heading text-lg font-bold text-park-ink">{{ ep.title }}</h3>
             </div>
             <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
                 <path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Zm18 0a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               {{ ep.duration }}
@@ -115,7 +115,7 @@ function downloadSummary() {
 
       <div class="mt-6 flex flex-wrap items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(22,40,31,0.06)] sm:p-5">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-park-ink/8 text-park-ink">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-5 w-5">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-5 w-5" aria-hidden="true">
             <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h9A1.5 1.5 0 0 1 16 5.5V17a2 2 0 0 0 2 2m-16-.5A1.5 1.5 0 0 0 5.5 20H18a2 2 0 0 1-2-2M8 8h5M8 11.5h5M8 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </span>
@@ -129,7 +129,7 @@ function downloadSummary() {
             class="inline-flex items-center gap-2 rounded-full bg-park-green px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
             @click="showSummaryViewer = true"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
               <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H9v14H5.5A1.5 1.5 0 0 1 4 15.5v-11ZM11 3h3.5A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5H11V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
             </svg>
             {{ t.publications.readOnline }}
@@ -139,7 +139,7 @@ function downloadSummary() {
             class="inline-flex items-center gap-2 rounded-full border border-park-ink/15 bg-white px-5 py-2.5 text-sm font-bold text-park-ink transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
             @click="downloadSummary"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
               <path d="M10 3v10m0 0 4-4m-4 4-4-4M4 16.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             {{ t.publications.download }}
@@ -232,8 +232,8 @@ function downloadSummary() {
 
 .audio-close {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   color: #fff;
   opacity: 0.6;

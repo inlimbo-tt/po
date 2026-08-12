@@ -20,6 +20,16 @@ const spanClasses: Record<string, string> = {
   fotos: 'lg:col-span-2',
   media: 'lg:col-span-2',
 }
+
+// Some tile colors (amber, light green) are too light for white text to
+// meet WCAG AA contrast — switch to dark ink text on those automatically.
+function isLightTile(hex: string): boolean {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+  return luminance > 0.45
+}
 </script>
 
 <template>
@@ -48,11 +58,11 @@ const spanClasses: Record<string, string> = {
         </p>
         <button
           type="button"
-          class="mt-4 inline-flex items-center gap-2 rounded-full bg-park-amber px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-amber-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+          class="mt-4 inline-flex items-center gap-2 rounded-full bg-park-amber px-6 py-3 text-sm font-bold text-park-ink shadow-md transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-amber-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
           @click="scrollToSection('publications')"
         >
           {{ t.hero.cta }}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
             <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
@@ -83,16 +93,24 @@ const spanClasses: Record<string, string> = {
 
         <div class="mt-5 flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <h2 class="text-balance font-heading font-bold text-white" style="font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.1;">{{ tile.title }}</h2>
-            <p class="mt-2.5 text-base leading-[1.4] text-white/90">{{ tile.description }}</p>
+            <h2
+              class="text-balance font-heading font-bold"
+              :class="isLightTile(tile.color) ? 'text-park-ink' : 'text-white'"
+              style="font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.1;"
+            >{{ tile.title }}</h2>
+            <p
+              class="mt-2.5 text-base leading-[1.4]"
+              :class="isLightTile(tile.color) ? 'text-park-ink/80' : 'text-white/90'"
+            >{{ tile.description }}</p>
           </div>
 
           <span
-            class="flex shrink-0 items-center justify-center rounded-full bg-white/25 text-white transition-colors duration-300 group-hover:bg-white group-hover:text-park-ink"
+            class="flex shrink-0 items-center justify-center rounded-full transition-colors duration-300 group-hover:bg-white group-hover:text-park-ink"
+            :class="isLightTile(tile.color) ? 'bg-park-ink/15 text-park-ink' : 'bg-white/25 text-white'"
             style="width: clamp(2.25rem, 4vw, 2.75rem); height: clamp(2.25rem, 4vw, 2.75rem);"
             aria-hidden="true"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" style="width: clamp(0.9rem, 1.6vw, 1.1rem); height: clamp(0.9rem, 1.6vw, 1.1rem);">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" style="width: clamp(0.9rem, 1.6vw, 1.1rem); height: clamp(0.9rem, 1.6vw, 1.1rem);" aria-hidden="true">
               <path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
