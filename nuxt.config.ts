@@ -13,7 +13,12 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/po/' : '/',
+    // The site now deploys under a custom domain (parkouest.be), which
+    // GitHub Pages serves from the domain root — not from a /po/ subpath
+    // (that prefix only applied to the old inlimbo-tt.github.io/po/ URL).
+    // Keeping baseURL at '/' means every asset/script path resolves
+    // correctly on parkouest.be.
+    baseURL: '/',
     head: {
       title: 'Park Ouest',
       meta: [
@@ -29,7 +34,7 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           type: 'image/png',
-          href: `${process.env.NODE_ENV === 'production' ? '/po' : ''}/icon.png`,
+          href: '/icon.png',
         },
       ],
     },
