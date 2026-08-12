@@ -28,8 +28,8 @@ export default defineNuxtConfig({
         },
         {
           rel: 'icon',
-          type: 'image/x-icon',
-          href: `${process.env.NODE_ENV === 'production' ? '/po' : ''}/favicon.ico`,
+          type: 'image/png',
+          href: `${process.env.NODE_ENV === 'production' ? '/po' : ''}/icon.png`,
         },
       ],
     },
