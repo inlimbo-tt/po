@@ -28,7 +28,7 @@ function closeViewer() {
 </script>
 
 <template>
-  <section id="publications" class="site-section band-lime">
+  <section id="publications" class="site-section surface-accent-amber">
     <div v-reveal class="section-inner">
       <h2 class="section-title">{{ t.publications.title }}</h2>
       <p class="section-lead">{{ publicationsBlurb }}</p>
@@ -50,7 +50,7 @@ function closeViewer() {
           </div>
 
           <div class="flex flex-1 flex-col p-5 sm:p-6">
-            <h3 class="font-body text-2xl font-bold text-park-ink">{{ pub.title }}</h3>
+            <h3 class="font-heading text-2xl font-bold text-park-ink">{{ pub.title }}</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-park-ink/70 sm:text-base">{{ pub.description }}</p>
 
             <div class="mt-5 flex flex-wrap gap-3">

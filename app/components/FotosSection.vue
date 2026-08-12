@@ -43,7 +43,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <section id="fotos" class="site-section band-cream">
+  <section id="fotos" class="site-section surface-accent-green">
     <div v-reveal class="section-inner">
       <span class="inline-block rounded-full bg-park-green/12 px-3 py-1 text-xs font-bold tracking-wide text-park-green uppercase">
         {{ t.fotos.pill }}

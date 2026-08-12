@@ -49,13 +49,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <section id="park-in-cijfers" class="site-section band-cream">
+  <section id="park-in-cijfers" class="site-section surface-neutral">
     <div v-reveal class="section-inner">
       <h2 class="section-title">{{ parkInfographic.title }}</h2>
       <p class="section-lead">{{ parkInfographic.description }}</p>
 
       <div
-        class="relative mx-auto w-full max-w-3xl rounded-3xl bg-park-teal p-3 shadow-lg sm:p-4"
+        class="relative mx-auto w-full max-w-3xl rounded-3xl bg-park-green-dark p-3 shadow-lg sm:p-4"
         @touchstart="onTouchStart"
         @touchend="onTouchEnd"
       >

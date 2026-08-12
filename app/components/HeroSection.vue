@@ -67,8 +67,8 @@ const spanClasses: Record<string, string> = {
 
         <div class="mt-5 flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <h2 class="text-balance font-body font-bold text-white" style="font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.1;">{{ tile.title }}</h2>
-            <p class="mt-2.5 font-sans text-base leading-[1.4] text-white/90">{{ tile.description }}</p>
+            <h2 class="text-balance font-heading font-bold text-white" style="font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.1;">{{ tile.title }}</h2>
+            <p class="mt-2.5 text-base leading-[1.4] text-white/90">{{ tile.description }}</p>
           </div>
 
           <span

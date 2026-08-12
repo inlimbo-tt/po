@@ -57,7 +57,7 @@ const heroTilesNl: HeroTile[] = [
     title: 'Park Ouest in cijfers',
     description: 'Een visueel overzicht van de belangrijkste statistieken van het park.',
     image: '/tiles/hero_infographic_tile.jpg',
-    color: '#1a6b8a',
+    color: '#1f4a37',
   },
   {
     id: 'podcasts',
@@ -81,7 +81,7 @@ const heroTilesNl: HeroTile[] = [
     title: 'Media ',
     description: 'Volg het parkverhaal in de pers en op sociale media.',
     image: '/tiles/hero_media_tile.jpg',
-    color: '#1f4a37',
+    color: '#16281f',
   },
 ]
 

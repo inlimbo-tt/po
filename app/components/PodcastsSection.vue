@@ -66,7 +66,7 @@ function downloadSummary() {
 </script>
 
 <template>
-  <section id="podcasts" class="site-section band-green" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''">
+  <section id="podcasts" class="site-section surface-accent-green" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''">
     <div v-reveal class="section-inner">
       <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-amber uppercase">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
@@ -92,7 +92,7 @@ function downloadSummary() {
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">{{ t.podcasts.episodeLabel }} {{ String(i + 1).padStart(2, '0') }}</p>
-              <h3 class="mt-0.5 font-body text-lg font-bold text-park-ink">{{ ep.title }}</h3>
+              <h3 class="mt-0.5 font-heading text-lg font-bold text-park-ink">{{ ep.title }}</h3>
             </div>
             <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4">
@@ -111,7 +111,7 @@ function downloadSummary() {
           </svg>
         </span>
         <div class="min-w-0 flex-1">
-          <p class="font-body text-base font-bold text-park-ink">{{ t.podcasts.summaryTitle }}</p>
+          <h3 class="font-heading text-base font-bold text-park-ink">{{ t.podcasts.summaryTitle }}</h3>
           <p class="text-sm text-park-ink/60">{{ t.podcasts.summaryDesc }}</p>
         </div>
         <div class="flex flex-wrap gap-3">
