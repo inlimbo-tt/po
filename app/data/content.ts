@@ -43,7 +43,7 @@ export const heroTiles: HeroTile[] = [
     id: 'publications',
     pill: 'READ',
     title: 'Publicaties',
-    description: 'Blader door onze publicaties en jaarverslagen als een digitaal boekje.',
+    description: 'Blader door ons jaarverslag en de Key Elements.',
     image: '/tiles/hero_rapport_tile.jpg',
     color: '#2f6b4a',
   },
@@ -51,7 +51,7 @@ export const heroTiles: HeroTile[] = [
     id: 'park-in-cijfers',
     pill: 'COUNT',
     title: 'Park Ouest in cijfers',
-    description: 'Een visueel overzicht van de belangrijkste statistieken en kengetallen van het park.',
+    description: 'Een visueel overzicht van de belangrijkste statistieken van het park.',
     image: '/tiles/hero_infographic_tile.jpg',
     color: '#1a6b8a',
   },
@@ -102,12 +102,12 @@ export const publications: Publication[] = [
 
 export const parkInfographic = {
   title: 'Park Ouest in cijfers',
-  description: 'Een visueel overzicht van de belangrijkste statistieken en kerngetallen van Park Ouest.',
+  description: 'Een visueel overzicht van de belangrijkste statistieken van Park Ouest.',
 }
 
 export const parkInfographics: string[] = [
-  '/images/infographics/parkstats.png',
-  '/images/infographics/visitors.jpg',
+  '/images/infographics/parkstats_NL.png',
+  '/images/infographics/visitors_NL.jpg',
 ]
 
 export const podcastEpisodes: PodcastEpisode[] = [
@@ -115,22 +115,29 @@ export const podcastEpisodes: PodcastEpisode[] = [
     id: 'ep1',
     title: 'Just Like Home',
     description: 'Wat betekent het park voor haar bezoekers? En vooral, waar zijn ze naar op zoek?',
-    duration: '24 min',
+    duration: '28 min',
     audioUrl: '/audio/episode-1.mp3',
   },
   {
     id: 'ep2',
     title: 'Seuil et Limites',
     description: 'Hekken, heuvels, deuren en ramen: Hoe open moet het park zijn?.',
-    duration: '18 min',
+    duration: '52 min',
     audioUrl: '/audio/episode-2.mp3',
   },
   {
     id: 'ep3',
     title: 'What If?',
     description: 'Dromen over het park...',
-    duration: '31 min',
+    duration: '1u 13 min',
     audioUrl: '/audio/episode-3.mp3',
+  },
+  {
+    id: 'ep5',
+    title: 'A Place for Others',
+    description: 'Beschrijving volgt.',
+    duration: '1u 25 min',
+    audioUrl: '/audio/episode-5.mp3',
   },
 ]
 

@@ -26,6 +26,8 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
       <MediaSection />
     </main>
 
+    <FooterSection />
+
     <button
       class="back-to-top"
       :class="{ visible: showBackToTop }"

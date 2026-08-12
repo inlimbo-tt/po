@@ -140,6 +140,20 @@
     }
   }
 
+  .footer-backdrop {
+    background: rgba(22, 40, 31, 0.88);
+    border-radius: 2rem;
+    box-shadow: 0 8px 28px rgba(18, 46, 35, 0.22);
+  }
+
+  @supports (backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px)) {
+    .footer-backdrop {
+      background: rgba(22, 40, 31, 0.8);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+  }
+
   .back-to-top {
     position: fixed;
     bottom: 1.5rem;
