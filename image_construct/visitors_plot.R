@@ -280,3 +280,292 @@ ggsave(
   dpi = 300,
   bg = "white"
 )
+
+
+
+
+# FRENCH
+
+# -----------------------------------------------------------------------
+# Park Ouest — Nombre moyen de visiteurs quotidiens
+# Version éditoriale / inspirée de The Economist
+# -----------------------------------------------------------------------
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# ---- 1. Données -----------------------------------------------------------
+
+mois <- c(
+  "Jan", "Fév", "Mars", "Avr", "Mai", "Juin",
+  "Juil", "Août", "Sept", "Oct", "Nov", "Déc"
+)
+
+df <- tribble(
+  ~mois,   ~`2023`, ~`2024`, ~`2025`, ~`2026`,
+  "Jan",       NA,      30,     100,     200,
+  "Fév",       NA,      30,     150,     200,
+  "Mars",      NA,      60,     250,     250,
+  "Avr",       NA,     100,     350,     300,
+  "Mai",       50,     100,     450,     400,
+  "Juin",      50,     200,     400,     300,
+  "Juil",      50,     300,     350,     150,
+  "Août",      50,     300,     350,      NA,
+  "Sept",      80,     300,     400,      NA,
+  "Oct",       50,     150,     250,      NA,
+  "Nov",       30,     120,     250,      NA,
+  "Déc",       30,      80,     250,      NA
+) %>%
+  mutate(
+    mois = factor(mois, levels = mois)
+  ) %>%
+  pivot_longer(
+    cols = -mois,
+    names_to = "annee",
+    values_to = "visiteurs"
+  ) %>%
+  filter(!is.na(visiteurs)) %>%
+  mutate(
+    annee = factor(
+      annee,
+      levels = c("2023", "2024", "2025", "2026")
+    )
+  )
+
+# ---- 2. Hiérarchie visuelle ----------------------------------------------
+#
+# 2025 constitue le récit principal.
+# Les années précédentes servent de contexte.
+# 2026 reste visible puisqu'il s'agit de l'année en cours,
+# mais est clairement indiquée comme incomplète.
+
+couleurs <- c(
+  "2023" = "#B8B8B8",
+  "2024" = "#8C8C8C",
+  "2025" = "#E64B26",
+  "2026" = "#5A315F"
+)
+
+largeur_ligne <- c(
+  "2023" = 0.9,
+  "2024" = 0.9,
+  "2025" = 1.5,
+  "2026" = 1.2
+)
+
+taille_point <- c(
+  "2023" = 1.8,
+  "2024" = 1.8,
+  "2025" = 2.7,
+  "2026" = 2.3
+)
+
+# ---- 3. Étiquettes en fin de ligne ---------------------------------------
+
+points_finaux <- df %>%
+  mutate(
+    mois_num = as.numeric(mois)
+  ) %>%
+  group_by(annee) %>%
+  slice_max(mois_num, n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  mutate(
+    etiquette = case_when(
+      annee == "2026" ~ "2026 · jusqu’en juil.",
+      TRUE ~ as.character(annee)
+    ),
+    
+    # Petits ajustements verticaux pour éviter
+    # que les étiquettes ne se chevauchent
+    etiquette_y = case_when(
+      annee == "2023" ~ visiteurs - 4,
+      annee == "2024" ~ visiteurs,
+      annee == "2025" ~ visiteurs + 5,
+      annee == "2026" ~ visiteurs,
+      TRUE ~ visiteurs
+    )
+  )
+
+# ---- 4. Graphique ---------------------------------------------------------
+
+p <- ggplot(
+  df,
+  aes(
+    x = mois,
+    y = visiteurs,
+    colour = annee,
+    group = annee
+  )
+) +
+  
+  # Lignes avec différents poids visuels
+  geom_line(
+    aes(linewidth = annee),
+    lineend = "round"
+  ) +
+  
+  # Valeurs mensuelles observées
+  geom_point(
+    aes(size = annee)
+  ) +
+  
+  # Étiquettes directes à la place d'une légende
+  geom_text(
+    data = points_finaux,
+    aes(
+      x = mois,
+      y = etiquette_y,
+      label = etiquette,
+      colour = annee
+    ),
+    inherit.aes = FALSE,
+    hjust = -0.15,
+    fontface = "bold",
+    size = 4.2
+  ) +
+  
+  # ---- Échelles ----------------------------------------------------------
+
+scale_colour_manual(
+  values = couleurs
+) +
+  
+  scale_linewidth_manual(
+    values = largeur_ligne
+  ) +
+  
+  scale_size_manual(
+    values = taille_point
+  ) +
+  
+  scale_y_continuous(
+    limits = c(0, 500),
+    breaks = seq(0, 500, 100),
+    
+    # Maintenir le bas de l'axe exactement à zéro
+    expand = expansion(
+      mult = c(0, 0.02)
+    )
+  ) +
+  
+  # Espace supplémentaire à droite pour les étiquettes
+  scale_x_discrete(
+    expand = expansion(
+      add = c(0.35, 1.25)
+    )
+  ) +
+  
+  # ---- Texte -------------------------------------------------------------
+
+labs(
+  title = "Park Ouest a connu une forte croissance — avec des pics saisonniers",
+  
+  subtitle = paste0(
+    "La fréquentation a fortement augmenté entre 2023 et 2025.\n",
+    "Les chiffres provisoires de 2026 montrent une fréquentation plus faible pendant les mois d’été, ",
+    "\nnotamment parce que de nombreuses familles peuvent à nouveau partir en vacances."
+  ),
+  
+  x = NULL,
+  y = "Nombre moyen de visiteurs par jour",
+  
+  caption = "Source : comptages Park Ouest / Toestand"
+) +
+  
+  # Permettre aux étiquettes de dépasser la zone du graphique
+  coord_cartesian(
+    clip = "off"
+  ) +
+  
+  # ---- Thème -------------------------------------------------------------
+
+theme_minimal(
+  base_size = 14
+) +
+  
+  theme(
+    
+    # Titre
+    plot.title = element_text(
+      face = "bold",
+      size = 22,
+      lineheight = 1.05,
+      colour = "#111111",
+      margin = margin(b = 8)
+    ),
+    
+    # Sous-titre
+    plot.subtitle = element_text(
+      size = 12.5,
+      lineheight = 1.3,
+      colour = "#444444",
+      margin = margin(b = 22)
+    ),
+    
+    # Source
+    plot.caption = element_text(
+      size = 9.5,
+      colour = "#777777",
+      hjust = 0,
+      margin = margin(t = 14)
+    ),
+    
+    # Supprimer la grille verticale
+    panel.grid.major.x = element_blank(),
+    
+    # Pas de grille secondaire
+    panel.grid.minor = element_blank(),
+    
+    # Grille horizontale discrète
+    panel.grid.major.y = element_line(
+      colour = "#D7D7D7",
+      linewidth = 0.45
+    ),
+    
+    # Ligne de base plus marquée
+    axis.line.x = element_line(
+      colour = "#222222",
+      linewidth = 0.65
+    ),
+    
+    axis.ticks = element_blank(),
+    
+    # Étiquettes des mois
+    axis.text.x = element_text(
+      colour = "#222222",
+      size = 11.5,
+      margin = margin(t = 8)
+    ),
+    
+    # Valeurs de l'axe Y
+    axis.text.y = element_text(
+      colour = "#555555",
+      size = 10.5,
+      margin = margin(r = 8)
+    ),
+    
+    # Les étiquettes directes remplacent la légende
+    legend.position = "none",
+    
+    # Espace pour les étiquettes en fin de ligne
+    plot.margin = margin(
+      t = 24,
+      r = 95,
+      b = 22,
+      l = 22
+    )
+  )
+
+print(p)
+
+# ---- 5. Export ------------------------------------------------------------
+
+ggsave(
+  filename = "/Users/mamsir/Documents/tt/webs/po/public/images/infographics/visitors_FR.jpg",
+  plot = p,
+  width = 12,
+  height = 7,
+  dpi = 300,
+  bg = "white"
+)
