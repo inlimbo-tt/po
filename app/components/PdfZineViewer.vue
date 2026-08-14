@@ -14,6 +14,7 @@ const props = defineProps<{
 const emit = defineEmits<{ close: [] }>()
 
 const loading = ref(true)
+const loadingMore = ref(false)
 const error = ref('')
 const loadedPages = ref(0)
 const totalPages = ref(0)
@@ -27,8 +28,22 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).href
 
+async function renderPageImage(pdf: pdfjsLib.PDFDocumentProxy, i: number): Promise<string> {
+  const page = await pdf.getPage(i)
+  const viewport = page.getViewport({ scale: 1.5 })
+  const canvas = document.createElement('canvas')
+  canvas.width = viewport.width
+  canvas.height = viewport.height
+  const ctx = canvas.getContext('2d')!
+  await page.render({ canvas, canvasContext: ctx, viewport }).promise
+  return canvas.toDataURL('image/jpeg', 0.85)
+}
+
 async function renderPdf() {
+  pageFlip?.destroy()
+  pageFlip = null
   loading.value = true
+  loadingMore.value = false
   error.value = ''
   loadedPages.value = 0
   totalPages.value = 0
@@ -37,53 +52,60 @@ async function renderPdf() {
   try {
     const pdf = await pdfjsLib.getDocument({ url: props.pdfUrl }).promise
     totalPages.value = pdf.numPages
-    const pageImages: string[] = []
 
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i)
-      const viewport = page.getViewport({ scale: 1.5 })
-      const canvas = document.createElement('canvas')
-      canvas.width = viewport.width
-      canvas.height = viewport.height
-      const ctx = canvas.getContext('2d')!
-      await page.render({ canvas, canvasContext: ctx, viewport }).promise
-      pageImages.push(canvas.toDataURL('image/jpeg', 0.85))
-      loadedPages.value = i
-      progressPercent.value = Math.round((i / pdf.numPages) * 100)
-    }
+    // Render just the first page and open the flipbook right away, instead
+    // of blocking on every page — the rest stream in behind the scenes.
+    const firstImage = await renderPageImage(pdf, 1)
+    loadedPages.value = 1
+    progressPercent.value = Math.round((1 / pdf.numPages) * 100)
 
     await nextTick()
-    initFlipbook(pageImages)
+    initFlipbook([firstImage])
+    loading.value = false
+
+    if (pdf.numPages > 1) {
+      loadingMore.value = true
+      for (let i = 2; i <= pdf.numPages; i++) {
+        const src = await renderPageImage(pdf, i)
+        appendPage(src)
+        pageFlip?.updateFromHtml(document.querySelectorAll('.flip-page'))
+        loadedPages.value = i
+        progressPercent.value = Math.round((i / pdf.numPages) * 100)
+      }
+      loadingMore.value = false
+    }
   } catch (e) {
     error.value = t.value.pdfViewer.error
     console.error(e)
-  } finally {
     loading.value = false
   }
+}
+
+function appendPage(src: string) {
+  if (!bookRef.value) return
+  const page = document.createElement('div')
+  page.className = 'flip-page'
+  const img = document.createElement('img')
+  img.src = src
+  img.alt = t.value.pdfViewer.pageAlt
+  page.appendChild(img)
+  bookRef.value.appendChild(page)
 }
 
 function initFlipbook(images: string[]) {
   if (!bookRef.value || images.length === 0) return
 
   bookRef.value.innerHTML = ''
-  images.forEach((src) => {
-    const page = document.createElement('div')
-    page.className = 'flip-page'
-    const img = document.createElement('img')
-    img.src = src
-    img.alt = t.value.pdfViewer.pageAlt
-    page.appendChild(img)
-    bookRef.value!.appendChild(page)
-  })
+  images.forEach(appendPage)
 
   // A4 portrait ratio (height / width)
   const A4_RATIO = 1.4142
   // reserve room for the modal header, controls and hint text so they stay visible
-  const chromeHeight = 170
+  const chromeHeight = 150
   // reserve room for the modal's own horizontal padding so the right page never gets clipped
-  const modalHorizontalPadding = 96
-  const maxContainerWidth = window.innerWidth * 0.96 - modalHorizontalPadding
-  const maxContainerHeight = window.innerHeight * 0.96 - chromeHeight
+  const modalHorizontalPadding = 40
+  const maxContainerWidth = window.innerWidth - modalHorizontalPadding
+  const maxContainerHeight = window.innerHeight - chromeHeight
   const isDoublePage = maxContainerWidth / 2 >= 400
 
   let pageWidth = isDoublePage ? maxContainerWidth / 2 : maxContainerWidth
@@ -156,6 +178,9 @@ watch(() => props.pdfUrl, renderPdf)
           <button @click="nextPage">{{ t.pdfViewer.next }}</button>
         </div>
         <p class="zine-hint">{{ t.pdfViewer.hint }}</p>
+        <p v-if="loadingMore" class="zine-hint zine-loading-more">
+          {{ t.pdfViewer.loadingPage(loadedPages, totalPages, progressPercent) }}
+        </p>
       </div>
     </div>
   </div>
@@ -170,16 +195,16 @@ watch(() => props.pdfUrl, renderPdf)
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
 }
 
 .zine-modal {
   background: #2a2a2a;
   border-radius: 16px;
-  max-width: 98vw;
-  max-height: 98vh;
+  width: 100vw;
+  max-width: 100vw;
+  max-height: 100vh;
   overflow: auto;
-  padding: 1.5rem 3rem;
+  padding: 1rem 1.25rem;
 }
 
 .zine-header {
@@ -282,5 +307,10 @@ watch(() => props.pdfUrl, renderPdf)
   color: #888;
   font-size: 0.8rem;
   margin-top: 0.75rem;
+}
+
+.zine-loading-more {
+  margin-top: 0.35rem;
+  color: #d99a35;
 }
 </style>
