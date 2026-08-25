@@ -212,7 +212,10 @@
 
   @media (max-width: 480px) {
     .hero-title-backdrop {
-      border-radius: 2rem;
+      /* A gentler wobble than the desktop blob (which pinches too tightly
+         against the logo at narrow widths, given how little padding fits
+         there) — still organic, not a plain rounded rectangle. */
+      border-radius: 12% 9% 13% 10% / 26% 20% 28% 18%;
     }
   }
 

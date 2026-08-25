@@ -53,6 +53,13 @@ function closeViewer() {
             <h3 class="font-heading text-2xl font-bold text-park-ink">{{ pub.title }}</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-park-ink/70 sm:text-base">{{ pub.description }}</p>
 
+            <p
+              v-if="pub.id === 'jaarrapport' && locale === 'fr'"
+              class="mt-3 rounded-xl bg-park-amber/12 px-4 py-3 text-sm leading-relaxed text-park-ink/80"
+            >
+              {{ t.publications.jaarrapportFrNotice }}
+            </p>
+
             <div class="mt-5 flex flex-wrap gap-3">
               <button
                 type="button"

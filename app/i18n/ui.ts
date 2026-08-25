@@ -17,6 +17,7 @@ export const ui = {
       title: 'Publicaties',
       readOnline: 'Lees online',
       download: 'Download PDF',
+      jaarrapportFrNotice: '',
     },
     parkInCijfers: {
       zoomAria: 'Klik om in te zoomen',
@@ -77,6 +78,7 @@ export const ui = {
       title: 'Publications',
       readOnline: 'Lire en ligne',
       download: 'Télécharger le PDF',
+      jaarrapportFrNotice: "Nous n'avons malheureusement pas encore traduit le rapport annuel en français — en attendant, vous pouvez consulter la version néerlandaise ci-dessous.",
     },
     parkInCijfers: {
       zoomAria: 'Cliquez pour zoomer',

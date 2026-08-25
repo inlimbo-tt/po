@@ -120,7 +120,7 @@ const publicationsNl: Publication[] = [
     id: 'jaarrapport',
     title: 'Jaarrapport',
     description: 'Het volledige jaarverslag van Park Ouest met ontwikkelingen, cijfers en visie voor de toekomst.',
-    pdfUrl: '/pdfs/ParkOuest_jaarverslag2026_NL.pdf',
+    pdfUrl: '/pdfs/ParkOuest_jaarverslag2026.pdf',
     coverColor: '#1a6b8a',
     tileImage: '/tiles/jaarrapport_tile.jpg',
   },

@@ -42,7 +42,7 @@ function isLightTile(hex: string): boolean {
 
     <div v-reveal class="relative py-10 text-center sm:py-14">
       <h1 class="flex justify-center">
-        <div class="hero-title-backdrop w-4/5 px-[6%] py-[7%]">
+        <div class="hero-title-backdrop w-4/5 px-[6%] py-[7%] max-sm:px-[12%] max-sm:py-[14%]">
           <div
             class="mx-auto aspect-[3508/869] w-full bg-park-green-dark"
             :style="`-webkit-mask-image: url('${logoUrl}'); mask-image: url('${logoUrl}'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;`"
