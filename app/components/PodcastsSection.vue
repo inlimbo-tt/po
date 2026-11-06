@@ -75,7 +75,7 @@ function downloadSummary() {
 </script>
 
 <template>
-  <section id="podcasts" class="site-section surface-accent-green" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''">
+  <section id="radio" class="ml-0 mt-7 rounded-3xl border-l-4 border-park-green/50 bg-park-green/5 p-5 shadow-sm sm:ml-4 sm:mt-8 sm:p-7 lg:ml-8 lg:p-8" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''" aria-labelledby="radio-title">
     <div v-reveal class="section-inner">
       <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-ink uppercase">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5" aria-hidden="true">
@@ -83,7 +83,7 @@ function downloadSummary() {
         </svg>
         {{ t.podcasts.pill }}
       </span>
-      <h2 class="section-title mt-3">{{ t.podcasts.title }}</h2>
+      <h3 id="radio-title" class="mt-3 font-heading text-2xl font-bold text-park-ink sm:text-3xl">{{ t.podcasts.title }}</h3>
       <p class="section-lead">
         {{ t.podcasts.lead }}
       </p>

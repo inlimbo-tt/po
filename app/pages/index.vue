@@ -25,7 +25,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
     <main>
       <PublicationsSection />
       <ParkInCijfersSection />
-      <PodcastsSection />
+      <ParkEvolutionSection />
       <FotosSection />
       <MediaSection />
     </main>

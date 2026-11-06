@@ -13,10 +13,15 @@ function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
+function handleTileClick(event: MouseEvent, id: string) {
+  event.preventDefault()
+  scrollToSection(id)
+}
+
 const spanClasses: Record<string, string> = {
   publications: 'lg:col-span-3',
   'park-in-cijfers': 'lg:col-span-3',
-  podcasts: 'lg:col-span-2',
+  'park-in-evolutie': 'lg:col-span-2',
   fotos: 'lg:col-span-2',
   media: 'lg:col-span-2',
 }
@@ -73,15 +78,15 @@ function isLightTile(hex: string): boolean {
       class="relative mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6"
       :aria-label="t.nav.ariaLabel"
     >
-      <button
+      <NuxtLink
         v-for="tile in heroTiles"
         :key="tile.id"
         v-reveal
-        type="button"
         class="group relative flex flex-col overflow-hidden rounded-2xl p-5 pb-6 text-left shadow-[0_10px_30px_rgba(15,35,25,0.22)] transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_16px_40px_rgba(15,35,25,0.3)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-6 sm:pb-7"
         :class="spanClasses[tile.id]"
         :style="{ backgroundColor: tile.color }"
-        @click="scrollToSection(tile.id)"
+        :to="`/#${tile.id}`"
+        @click="handleTileClick($event, tile.id)"
       >
         <div class="aspect-[4/3] w-full overflow-hidden rounded-xl ring-1 ring-white/20">
           <img
@@ -115,7 +120,7 @@ function isLightTile(hex: string): boolean {
             </svg>
           </span>
         </div>
-      </button>
+      </NuxtLink>
     </nav>
   </section>
 </template>

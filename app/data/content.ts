@@ -60,10 +60,10 @@ const heroTilesNl: HeroTile[] = [
     color: '#1f4a37',
   },
   {
-    id: 'podcasts',
+    id: 'park-in-evolutie',
     pill: 'LISTEN',
-    title: 'Podcasts',
-    description: 'Beluister gesprekken over de toekomst en het verhaal van het park.',
+    title: 'Park in evolutie',
+    description: 'Hoe groeien we toe naar het definitieve park?',
     image: '/tiles/hero_podcast_tile.jpg',
     color: '#d99a35',
   },
@@ -78,7 +78,7 @@ const heroTilesNl: HeroTile[] = [
   {
     id: 'media',
     pill: 'FOLLOW',
-    title: 'Media ',
+    title: 'Pers',
     description: 'Volg het parkverhaal in de pers en op sociale media.',
     image: '/tiles/hero_media_tile.jpg',
     color: '#16281f',
@@ -94,16 +94,16 @@ const heroTilesFr: Record<string, { title: string; description: string }> = {
     title: 'Park Ouest en chiffres',
     description: 'Un aperçu visuel des statistiques clés du parc.',
   },
-  podcasts: {
-    title: 'Podcasts',
-    description: "Écoutez des conversations sur l'avenir et l'histoire du parc.",
+  'park-in-evolutie': {
+    title: 'Le parc en évolution',
+    description: 'Comment avançons-nous vers le parc définitif ?',
   },
   fotos: {
     title: 'Galerie photo',
     description: 'Découvrez des photos du parc à travers les saisons.',
   },
   media: {
-    title: 'Médias',
+    title: 'Presse',
     description: "Suivez l'histoire du parc dans la presse et sur les réseaux sociaux.",
   },
 }
