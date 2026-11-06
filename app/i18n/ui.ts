@@ -61,7 +61,7 @@ export const ui = {
     },
     footer: {
       text: 'Een project van en voor de buurt, in samenwerking met',
-      photoCredit: 'Foto\'s door Tine Declerck, Wiebe Matthys',
+      photoCredit: 'Foto\'s van Park Ouest',
     },
     backToTop: { ariaLabel: 'Terug naar boven' },
     pdfViewer: {
@@ -130,7 +130,7 @@ export const ui = {
     },
     footer: {
       text: 'Un projet par et pour le quartier, en collaboration avec',
-      photoCredit: 'Photos par Tine Declerck, Wiebe Matthys',
+      photoCredit: 'Photos de Park Ouest',
     },
     backToTop: { ariaLabel: 'Retour en haut' },
     pdfViewer: {

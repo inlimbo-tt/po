@@ -40,6 +40,9 @@ export interface MediaItem {
 const NO_LOCAL_SCREENSHOT = new Set(['m2', 'm4', 'm17', 'm27'])
 const NEWSPAPER_FILLER = '/images/media-screenshots/newspaper-filler.svg'
 
+const photoPath = (index: number) => `/images/photos/photo-${String(index).padStart(2, '0')}.jpg`
+export const photos: string[] = Array.from({ length: 37 }, (_, i) => photoPath(i + 1))
+
 // --- Hero tiles ------------------------------------------------------------
 
 const heroTilesNl: HeroTile[] = [
@@ -48,7 +51,7 @@ const heroTilesNl: HeroTile[] = [
     pill: 'READ',
     title: 'Publicaties',
     description: 'Blader door ons jaarverslag en de Key Elements.',
-    image: '/tiles/hero_rapport_tile.jpg',
+    image: photoPath(2),
     color: '#2f6b4a',
   },
   {
@@ -64,7 +67,7 @@ const heroTilesNl: HeroTile[] = [
     pill: 'LISTEN',
     title: 'Park in evolutie',
     description: 'Hoe groeien we toe naar het definitieve park?',
-    image: '/tiles/hero_podcast_tile.jpg',
+    image: photoPath(13),
     color: '#d99a35',
   },
   {
@@ -72,7 +75,7 @@ const heroTilesNl: HeroTile[] = [
     pill: 'LOOK',
     title: 'Foto galerij',
     description: "Bekijk foto's van het park doorheen de seizoenen.",
-    image: '/tiles/hero_images_tile.jpg',
+    image: photoPath(1),
     color: '#92bb62',
   },
   {
@@ -80,7 +83,7 @@ const heroTilesNl: HeroTile[] = [
     pill: 'FOLLOW',
     title: 'Pers',
     description: 'Volg het parkverhaal in de pers en op sociale media.',
-    image: '/tiles/hero_media_tile.jpg',
+    image: photoPath(11),
     color: '#16281f',
   },
 ]
@@ -227,31 +230,6 @@ export function getPodcastEpisodes(locale: Locale): PodcastEpisode[] {
   if (locale === 'nl') return podcastEpisodesNl
   return podcastEpisodesNl.map(ep => ({ ...ep, ...podcastEpisodesFr[ep.id] }))
 }
-
-// --- Photos ------------------------------------------------------------
-
-const photoFilenames = [
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -002.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -004.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -005.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -020.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -022.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -036.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -037.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -039.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -041.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -060.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -063.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -066.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -069.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -096.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -118.jpg',
-  '20251219 - LR - parcouest - cc - DECLERCK Tine -120.jpg',
-  'IMG_0927.JPG',
-  'IMG_8178.JPG',
-]
-
-export const photos: string[] = photoFilenames.map((f) => `/images/photos/${encodeURIComponent(f)}`)
 
 // --- Media (in de pers) ------------------------------------------------------------
 // Article titles/sources are citations of real, already-published pieces

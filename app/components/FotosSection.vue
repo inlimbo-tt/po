@@ -67,7 +67,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           <img
             :src="useAsset(photos[activeIndex])"
             :alt="t.fotos.altTemplate(activeIndex + 1)"
-            class="aspect-[4/3] w-full object-cover"
+            class="aspect-[4/3] w-full bg-park-ink object-contain"
           >
         </button>
 
