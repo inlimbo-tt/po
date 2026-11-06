@@ -6,7 +6,18 @@ import { useT } from '~/i18n/ui'
 const { locale } = useLocale()
 const t = useT()
 const logoUrl = useAsset('/tiles/parkouest_logo.png')
-const navItems = computed(() => getHeroTiles(locale.value).map(({ id, title }) => ({ id, title })))
+const navLabels: Record<string, { nl: string; fr: string }> = {
+  publications: { nl: 'Publicaties', fr: 'Publications' },
+  'park-in-cijfers': { nl: 'Cijfers', fr: 'Chiffres' },
+  'park-in-evolutie': { nl: 'Participatie', fr: 'Participation' },
+  fotos: { nl: "Foto's", fr: 'Photos' },
+  media: { nl: 'Pers', fr: 'Presse' },
+  bezoek: { nl: 'Bezoek', fr: 'Visiter' },
+}
+const navItems = computed(() => getHeroTiles(locale.value).map(({ id, title }) => ({
+  id,
+  title: navLabels[id]?.[locale.value] ?? title,
+})))
 
 function scrollToTop(e: Event) {
   e.preventDefault()
@@ -25,12 +36,12 @@ function scrollToTop(e: Event) {
       />
     </a>
 
-    <nav class="hidden items-center gap-2 md:flex lg:gap-3" :aria-label="t.nav.ariaLabel">
+    <nav class="hidden items-center gap-1 md:flex" :aria-label="t.nav.ariaLabel">
       <a
         v-for="item in navItems"
         :key="item.id"
         :href="`#${item.id}`"
-        class="inline-flex min-h-11 items-center text-xs font-bold text-park-ink/75 transition-colors hover:text-park-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green lg:text-sm"
+        class="inline-flex min-h-9 items-center whitespace-nowrap rounded-full border border-park-green/15 bg-white/55 px-2.5 text-xs font-bold text-park-ink/80 transition-colors hover:border-park-green/35 hover:bg-park-green/10 hover:text-park-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
       >
         {{ item.title }}
       </a>

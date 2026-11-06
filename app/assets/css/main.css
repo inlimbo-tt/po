@@ -259,6 +259,9 @@
     background: var(--color-park-amber);
     opacity: 0.8;
     transform: rotate(-5deg);
+    box-shadow:
+      2.4rem 0.45rem 0 -0.08rem rgba(47, 107, 74, 0.62),
+      4.4rem -0.15rem 0 -0.12rem rgba(217, 154, 53, 0.72);
   }
 
   .hero-tagline-backdrop::after {
@@ -269,6 +272,9 @@
     background: var(--color-park-green);
     opacity: 0.45;
     transform: rotate(7deg);
+    box-shadow:
+      -1.8rem -0.45rem 0 -0.1rem rgba(217, 154, 53, 0.75),
+      -3.1rem 0.12rem 0 -0.12rem rgba(47, 107, 74, 0.55);
   }
 
   @supports (backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px)) {
