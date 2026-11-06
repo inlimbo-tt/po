@@ -82,7 +82,6 @@ export const ui = {
       summerWeekdayHours: '10:00–20:00',
       summerSunday: 'Zondag',
       summerSundayHours: '10:00–19:30',
-      guardianNote: 'Op zondag opent de parkbewaking het park.',
     },
     fotos: {
       pill: 'Galerij',
@@ -194,7 +193,6 @@ export const ui = {
       summerWeekdayHours: '10:00–20:00',
       summerSunday: 'Dimanche',
       summerSundayHours: '10:00–19:30',
-      guardianNote: 'Le dimanche, le parc est ouvert par les gardien·nes du parc.',
     },
     fotos: {
       pill: 'Galerie',

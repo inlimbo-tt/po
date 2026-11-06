@@ -68,10 +68,9 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent('Rue Alp
               </dl>
             </section>
           </div>
-          <p class="mt-4 text-sm leading-relaxed text-park-ink/75">{{ t.visit.guardianNote }}</p>
+          <FooterSection class="mt-6" />
         </div>
       </div>
     </div>
-    <FooterSection class="mt-6" />
   </section>
 </template>

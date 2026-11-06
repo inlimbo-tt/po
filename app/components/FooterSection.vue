@@ -7,8 +7,8 @@ const leefmilieuLogo = useAsset('/logos/leefmilieu-brussel.svg')
 </script>
 
 <template>
-  <footer class="flex justify-center px-4 py-2">
-    <div class="footer-backdrop flex flex-col items-center gap-5 px-8 py-6 text-center sm:px-10 sm:py-7">
+  <footer class="w-full py-2">
+    <div class="footer-backdrop flex w-full flex-col items-center gap-5 px-8 py-6 text-center sm:px-10 sm:py-7">
       <p class="text-sm text-white/80 sm:text-base">
         {{ t.footer.text }}
       </p>
