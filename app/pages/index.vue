@@ -9,12 +9,10 @@ const audioBarActive = useAudioBarActive()
 const showBackToTop = ref(false)
 
 useHead(() => ({
-  title: locale.value === 'nl' ? 'Park Ouest — Park in evolutie' : 'Park Ouest — Le parc en évolution',
+  title: t.value.meta.title,
   meta: [{
     name: 'description',
-    content: locale.value === 'nl'
-      ? 'Ontdek hoe Park Ouest groeit met de buurt: van dagelijks gebruik en participatie tot het toekomstige park.'
-      : 'Découvrez comment Park Ouest évolue avec le quartier : des usages quotidiens et de la participation au futur parc.',
+    content: t.value.meta.description,
   }],
 }))
 

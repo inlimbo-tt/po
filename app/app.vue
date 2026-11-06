@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { heroImage } from '~/data/content'
+import { isRtlLocale } from '~/composables/useLocale'
 
 const bg = useAsset(heroImage)
 
-const { initLocale } = useLocale()
+const { initLocale, locale } = useLocale()
+useHead(() => ({
+  htmlAttrs: {
+    lang: locale.value,
+    dir: isRtlLocale(locale.value) ? 'rtl' : 'ltr',
+  },
+}))
 onMounted(initLocale)
 </script>
 

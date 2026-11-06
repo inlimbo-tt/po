@@ -1,7 +1,8 @@
 import type { Locale } from '~/composables/useLocale'
+import { additionalContent } from '~/i18n/content.extra'
 
 export interface HeroTile {
-  id: string
+  id: 'publications' | 'park-in-cijfers' | 'park-in-evolutie' | 'fotos' | 'media' | 'bezoek'
   pill: string
   title: string
   description: string
@@ -125,7 +126,8 @@ const heroTilesFr: Record<string, { title: string; description: string }> = {
 
 export function getHeroTiles(locale: Locale): HeroTile[] {
   if (locale === 'nl') return heroTilesNl
-  return heroTilesNl.map(tile => ({ ...tile, ...heroTilesFr[tile.id] }))
+  if (locale === 'fr') return heroTilesNl.map(tile => ({ ...tile, ...heroTilesFr[tile.id] }))
+  return heroTilesNl.map(tile => ({ ...tile, ...additionalContent[locale].hero[tile.id] }))
 }
 
 // --- Publications ------------------------------------------------------------
@@ -162,7 +164,8 @@ const publicationsFr: Record<string, { title: string; description: string }> = {
 
 export function getPublications(locale: Locale): Publication[] {
   if (locale === 'nl') return publicationsNl
-  return publicationsNl.map(pub => ({ ...pub, ...publicationsFr[pub.id] }))
+  if (locale === 'fr') return publicationsNl.map(pub => ({ ...pub, ...publicationsFr[pub.id] }))
+  return publicationsNl.map(pub => ({ ...pub, ...additionalContent[locale].publications[pub.id] }))
 }
 
 // --- Park in cijfers ------------------------------------------------------------
@@ -178,7 +181,9 @@ const parkInfographicFr = {
 }
 
 export function getParkInfographic(locale: Locale) {
-  return locale === 'nl' ? parkInfographicNl : parkInfographicFr
+  if (locale === 'nl') return parkInfographicNl
+  if (locale === 'fr') return parkInfographicFr
+  return additionalContent[locale].infographic
 }
 
 export const parkInfographics: string[] = [
@@ -240,7 +245,8 @@ const podcastEpisodesFr: Record<string, { description: string; duration: string 
 
 export function getPodcastEpisodes(locale: Locale): PodcastEpisode[] {
   if (locale === 'nl') return podcastEpisodesNl
-  return podcastEpisodesNl.map(ep => ({ ...ep, ...podcastEpisodesFr[ep.id] }))
+  if (locale === 'fr') return podcastEpisodesNl.map(ep => ({ ...ep, ...podcastEpisodesFr[ep.id] }))
+  return podcastEpisodesNl.map(ep => ({ ...ep, ...additionalContent[locale].episodes[ep.id] }))
 }
 
 // --- Media (in de pers) ------------------------------------------------------------
@@ -301,5 +307,7 @@ const publicationsBlurbFr =
   'Découvrez nos publications sur Park Ouest. Choisissez un document à télécharger ou feuilletez-le comme un livret numérique.'
 
 export function getPublicationsBlurb(locale: Locale): string {
-  return locale === 'nl' ? publicationsBlurbNl : publicationsBlurbFr
+  if (locale === 'nl') return publicationsBlurbNl
+  if (locale === 'fr') return publicationsBlurbFr
+  return additionalContent[locale].publicationsBlurb
 }

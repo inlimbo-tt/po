@@ -6,17 +6,9 @@ import { useT } from '~/i18n/ui'
 const { locale } = useLocale()
 const t = useT()
 const logoUrl = useAsset('/tiles/parkouest_logo.png')
-const navLabels: Record<string, { nl: string; fr: string }> = {
-  publications: { nl: 'Publicaties', fr: 'Publications' },
-  'park-in-cijfers': { nl: 'Cijfers', fr: 'Chiffres' },
-  'park-in-evolutie': { nl: 'Participatie', fr: 'Participation' },
-  fotos: { nl: "Foto's", fr: 'Photos' },
-  media: { nl: 'Pers', fr: 'Presse' },
-  bezoek: { nl: 'Bezoek', fr: 'Visiter' },
-}
 const navItems = computed(() => getHeroTiles(locale.value).map(({ id, title }) => ({
   id,
-  title: navLabels[id]?.[locale.value] ?? title,
+  title: t.value.nav.labels[id] ?? title,
 })))
 
 function scrollToTop(e: Event) {

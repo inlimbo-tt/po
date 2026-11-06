@@ -54,7 +54,7 @@ function closeViewer() {
             <p class="mt-2 flex-1 text-sm leading-relaxed text-park-ink/70 sm:text-base">{{ pub.description }}</p>
 
             <p
-              v-if="pub.id === 'jaarrapport' && locale === 'fr'"
+              v-if="pub.id === 'jaarrapport' && locale !== 'nl'"
               class="mt-3 rounded-xl bg-park-amber/12 px-4 py-3 text-sm leading-relaxed text-park-ink/80"
             >
               {{ t.publications.jaarrapportFrNotice }}

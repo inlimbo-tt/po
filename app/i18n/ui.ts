@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { useLocale } from '~/composables/useLocale'
 import type { Locale } from '~/composables/useLocale'
+import { additionalUi } from '~/i18n/ui.extra'
 
 /**
  * Static UI copy (labels, buttons, aria-labels) that isn't part of the
@@ -11,6 +12,11 @@ export const ui = {
     nav: {
       ariaLabel: 'Hoofdnavigatie',
       homeAria: 'Park Ouest — naar boven',
+      labels: { publications: 'Publicaties', 'park-in-cijfers': 'Cijfers', 'park-in-evolutie': 'Participatie', fotos: "Foto's", media: 'Pers', bezoek: 'Bezoek' },
+    },
+    meta: {
+      title: 'Park Ouest — Park in evolutie',
+      description: 'Ontdek hoe Park Ouest groeit met de buurt: van dagelijks gebruik en participatie tot het toekomstige park.',
     },
     hero: {
       tagline: 'Tuin, keuken, salon, disco of fietsatelier: Park Ouest is meer dan een park! Tijdelijk voor altijd, door en voor de buurt.',
@@ -122,6 +128,11 @@ export const ui = {
     nav: {
       ariaLabel: 'Navigation principale',
       homeAria: 'Park Ouest — retour en haut',
+      labels: { publications: 'Publications', 'park-in-cijfers': 'Chiffres', 'park-in-evolutie': 'Participation', fotos: 'Photos', media: 'Presse', bezoek: 'Visiter' },
+    },
+    meta: {
+      title: 'Park Ouest — Le parc en évolution',
+      description: 'Découvrez comment Park Ouest évolue avec le quartier : des usages quotidiens et de la participation au futur parc.',
     },
     hero: {
       tagline: 'Jardin, cuisine, salon, disco ou atelier vélo : Park Ouest est bien plus qu’un parc ! Temporaire pour toujours, par et pour le quartier.',
@@ -229,6 +240,7 @@ export const ui = {
     },
     languageSwitcher: { ariaLabel: 'Choisir la langue' },
   },
+  ...additionalUi,
 } as const satisfies Record<Locale, unknown>
 
 export function useT() {

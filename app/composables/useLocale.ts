@@ -1,4 +1,14 @@
-export type Locale = 'nl' | 'fr'
+export type Locale = 'nl' | 'fr' | 'en' | 'ar' | 'ary' | 'es' | 'sq' | 'wo' | 'ru' | 'uk'
+
+export const locales: Locale[] = ['nl', 'fr', 'en', 'ar', 'ary', 'es', 'sq', 'wo', 'uk', 'ru']
+
+export function isLocale(value: string): value is Locale {
+  return locales.some(locale => locale === value)
+}
+
+export function isRtlLocale(locale: Locale): boolean {
+  return locale === 'ar' || locale === 'ary'
+}
 
 const STORAGE_KEY = 'po-locale'
 
@@ -15,16 +25,16 @@ export function useLocale() {
     if (import.meta.client) {
       localStorage.setItem(STORAGE_KEY, next)
       document.documentElement.lang = next
+      document.documentElement.dir = isRtlLocale(next) ? 'rtl' : 'ltr'
     }
   }
 
   function initLocale() {
     if (!import.meta.client) return
     const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved === 'nl' || saved === 'fr') {
-      locale.value = saved
-    }
+    if (saved && isLocale(saved)) locale.value = saved
     document.documentElement.lang = locale.value
+    document.documentElement.dir = isRtlLocale(locale.value) ? 'rtl' : 'ltr'
   }
 
   return { locale, setLocale, initLocale }

@@ -15,7 +15,7 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent('Rue Alp
       <div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10">
         <div class="rounded-3xl bg-white p-5 shadow-sm sm:p-7">
           <h3 class="font-heading text-xl font-bold text-park-ink">{{ t.visit.addressLabel }}</h3>
-          <address class="mt-3 not-italic leading-relaxed text-park-ink/80">{{ t.visit.address }}</address>
+          <address dir="ltr" class="mt-3 text-left not-italic leading-relaxed text-park-ink/80">{{ t.visit.address }}</address>
           <a
             :href="mapUrl"
             target="_blank"
@@ -27,7 +27,7 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent('Rue Alp
           </a>
           <p class="mt-4 text-sm text-park-ink/75">
             {{ t.visit.emailLabel }}
-            <a class="font-bold text-park-green-dark underline underline-offset-4 hover:text-park-green" href="mailto:parkouest@toestand.be">parkouest@toestand.be</a>
+            <a dir="ltr" class="font-bold text-park-green-dark underline underline-offset-4 hover:text-park-green" href="mailto:parkouest@toestand.be">parkouest@toestand.be</a>
           </p>
           <iframe
             class="mt-5 aspect-[16/9] w-full rounded-2xl border-0"

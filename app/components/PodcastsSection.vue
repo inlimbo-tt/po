@@ -91,7 +91,7 @@ function onAudioError() {
 function downloadSummary() {
   const link = document.createElement('a')
   link.href = useAsset(summaryPdfUrl.value)
-  link.download = locale.value === 'fr' ? 'resume-participation.pdf' : 'samenvatting-participatie.pdf'
+  link.download = locale.value === 'fr' ? 'resume-participation.pdf' : locale.value === 'nl' ? 'samenvatting-participatie.pdf' : 'participation-summary.pdf'
   link.click()
 }
 </script>
