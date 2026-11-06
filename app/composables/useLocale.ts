@@ -1,6 +1,6 @@
-export type Locale = 'nl' | 'fr' | 'en' | 'ar' | 'ary' | 'es' | 'sq' | 'wo' | 'ru' | 'uk'
+export type Locale = 'nl' | 'fr' | 'en' | 'ar' | 'ary' | 'es' | 'sq' | 'wo' | 'ru' | 'uk' | 'de' | 'sw' | 'ln' | 'ro' | 'zh-CN'
 
-export const locales: Locale[] = ['nl', 'fr', 'en', 'ar', 'ary', 'es', 'sq', 'wo', 'uk', 'ru']
+export const locales: Locale[] = ['nl', 'fr', 'sq', 'ar', 'ary', 'en', 'de', 'ln', 'zh-CN', 'ro', 'ru', 'es', 'sw', 'uk', 'wo']
 
 export function isLocale(value: string): value is Locale {
   return locales.some(locale => locale === value)

@@ -7,14 +7,19 @@ const t = useT()
 const languageNames: Record<Locale, string> = {
   nl: 'Nederlands',
   fr: 'Français',
-  en: 'English',
+  sq: 'Shqip',
   ar: 'العربية',
   ary: 'الدارجة',
-  es: 'Español',
-  sq: 'Shqip',
-  wo: 'Wolof',
+  en: 'English',
+  de: 'Deutsch',
+  ln: 'Lingála',
+  'zh-CN': '中文（普通话）',
+  ro: 'Română',
   ru: 'Русский',
+  es: 'Español',
+  sw: 'Kiswahili',
   uk: 'Українська',
+  wo: 'Wolof',
 }
 
 function onChange(event: Event) {

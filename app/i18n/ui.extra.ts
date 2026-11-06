@@ -1,4 +1,5 @@
 import type { Locale } from '~/composables/useLocale'
+import { moreUi } from '~/i18n/ui.more'
 
 type AdditionalLocale = Exclude<Locale, 'nl' | 'fr'>
 
@@ -931,4 +932,5 @@ export const additionalUi = {
     },
     languageSwitcher: { ariaLabel: 'Обрати мову' },
   },
+  ...moreUi,
 } satisfies Record<AdditionalLocale, unknown>

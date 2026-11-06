@@ -1,4 +1,5 @@
 import type { Locale } from '~/composables/useLocale'
+import { moreContent } from '~/i18n/content.more'
 
 type AdditionalLocale = Exclude<Locale, 'nl' | 'fr'>
 
@@ -187,4 +188,5 @@ export const additionalContent: Record<AdditionalLocale, LocalizedContent> = {
     },
     publicationsBlurb: 'Відкрийте публікації про Park Ouest. Завантажте документ або перегляньте його як цифрову книжку.',
   },
+  ...moreContent,
 }
