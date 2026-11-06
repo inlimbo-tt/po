@@ -13,6 +13,7 @@ const currentEpisode = ref<PodcastEpisode | null>(null)
 const audioRef = ref<HTMLAudioElement | null>(null)
 const isPlaying = ref(false)
 const showSummaryViewer = ref(false)
+const playbackError = ref('')
 
 const audioBarActive = useAudioBarActive()
 watch(currentEpisode, (ep) => {
@@ -22,7 +23,11 @@ onUnmounted(() => {
   audioBarActive.value = false
 })
 
-const summaryPdfUrl = '/pdfs/summary_participation_NL.pdf'
+const summaryPdfUrl = computed(() =>
+  locale.value === 'fr'
+    ? '/pdfs/summary_participation_FR.pdf'
+    : '/pdfs/summary_participation_NL.pdf',
+)
 const currentTitle = computed(() => currentEpisode.value?.title ?? '')
 
 function playEpisode(ep: PodcastEpisode) {
@@ -31,6 +36,7 @@ function playEpisode(ep: PodcastEpisode) {
     return
   }
   currentEpisode.value = ep
+  playbackError.value = ''
   nextTickPlay()
 }
 
@@ -38,9 +44,21 @@ function nextTickPlay() {
   requestAnimationFrame(() => {
     if (audioRef.value) {
       audioRef.value.load()
-      audioRef.value.play().catch(() => {})
+      playAudio()
     }
   })
+}
+
+function playAudio() {
+  const audio = audioRef.value
+  if (!audio) return
+  audio.play()
+    .then(() => {
+      playbackError.value = ''
+    })
+    .catch(() => {
+      playbackError.value = t.value.podcasts.playbackError
+    })
 }
 
 function togglePlay() {
@@ -48,7 +66,7 @@ function togglePlay() {
   if (isPlaying.value) {
     audioRef.value.pause()
   } else {
-    audioRef.value.play().catch(() => {})
+    playAudio()
   }
 }
 
@@ -66,16 +84,20 @@ function onPause() {
   isPlaying.value = false
 }
 
+function onAudioError() {
+  playbackError.value = t.value.podcasts.playbackError
+}
+
 function downloadSummary() {
   const link = document.createElement('a')
-  link.href = useAsset(summaryPdfUrl)
-  link.download = 'samenvatting-participatie.pdf'
+  link.href = useAsset(summaryPdfUrl.value)
+  link.download = locale.value === 'fr' ? 'resume-participation.pdf' : 'samenvatting-participatie.pdf'
   link.click()
 }
 </script>
 
 <template>
-  <section id="radio" class="ml-0 mt-7 rounded-3xl border-l-4 border-park-green/50 bg-park-green/5 p-5 shadow-sm sm:ml-4 sm:mt-8 sm:p-7 lg:ml-8 lg:p-8" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''" aria-labelledby="radio-title">
+  <section id="radio" class="ml-0 mt-7 rounded-3xl border-l-4 border-park-green/50 bg-park-green/5 p-4 shadow-sm sm:ml-4 sm:mt-8 sm:p-7 lg:ml-8 lg:p-8" :style="currentEpisode ? 'padding-bottom: 6rem;' : ''" aria-labelledby="radio-title">
     <div v-reveal class="section-inner">
       <span class="inline-flex items-center gap-1.5 rounded-full bg-park-amber/15 px-3 py-1 text-xs font-bold tracking-wide text-park-ink uppercase">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5" aria-hidden="true">
@@ -83,32 +105,44 @@ function downloadSummary() {
         </svg>
         {{ t.podcasts.pill }}
       </span>
-      <h3 id="radio-title" class="mt-3 font-heading text-2xl font-bold text-park-ink sm:text-3xl">{{ t.podcasts.title }}</h3>
-      <p class="section-lead">
-        {{ t.podcasts.lead }}
+      <div class="mt-3 mb-5 grid items-center gap-4 sm:grid-cols-[minmax(0,1fr)_12rem]">
+        <div>
+          <h4 id="radio-title" class="font-heading text-xl font-bold text-park-ink sm:text-2xl">{{ t.podcasts.title }}</h4>
+          <p class="mt-2 max-w-3xl text-sm leading-relaxed text-park-ink/75 sm:text-base">
+            {{ t.podcasts.lead }}
+          </p>
+        </div>
+        <img
+          :src="useAsset('/images/assets/radio-parkouest.jpeg')"
+          :alt="t.podcasts.imageAlt"
+          class="mx-auto max-h-64 w-full rounded-2xl bg-park-cream/70 object-contain sm:mx-0"
+          loading="lazy"
+        >
+      </div>
+
+      <p v-if="playbackError" class="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-900" role="alert">
+        {{ playbackError }}
       </p>
 
       <ul class="flex flex-col gap-4">
         <li v-for="(ep, i) in podcastEpisodes" :key="ep.id">
           <button
             type="button"
-            class="flex w-full items-center gap-5 rounded-[1.5rem] bg-white px-5 py-4 text-left shadow-[0_4px_20px_rgba(22,40,31,0.06)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg sm:px-6 sm:py-5"
+            class="grid w-full grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-x-3 gap-y-2 rounded-[1.5rem] bg-white px-4 py-4 text-left shadow-[0_4px_20px_rgba(22,40,31,0.06)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg sm:px-6 sm:py-5"
             :class="currentEpisode?.id === ep.id ? 'ring-2 ring-park-amber' : ''"
             @click="playEpisode(ep)"
           >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-park-amber text-park-ink transition-transform duration-300 motion-safe:hover:scale-105">
+            <span class="row-span-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-park-amber text-park-ink transition-transform duration-300 motion-safe:hover:scale-105">
               {{ currentEpisode?.id === ep.id && isPlaying ? '⏸' : '▶' }}
             </span>
             <div class="min-w-0 flex-1">
               <p class="text-xs font-bold tracking-widest text-park-ink/50 uppercase">{{ t.podcasts.episodeLabel }} {{ String(i + 1).padStart(2, '0') }}</p>
-              <h3 class="mt-0.5 font-heading text-lg font-bold text-park-ink">{{ ep.title }}</h3>
+              <div class="mt-0.5 flex flex-wrap items-baseline gap-x-2">
+                <h5 class="font-heading text-lg font-bold text-park-ink">{{ ep.title }}</h5>
+                <span class="text-xs font-semibold text-park-ink/50">{{ ep.duration }}</span>
+              </div>
             </div>
-            <span class="flex shrink-0 items-center gap-1.5 text-sm text-park-ink/50">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-                <path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2v2Zm18 0a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2v2Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              {{ ep.duration }}
-            </span>
+            <p v-if="ep.description" class="col-span-2 text-sm leading-relaxed text-park-ink/65">{{ ep.description }}</p>
           </button>
         </li>
       </ul>
@@ -120,7 +154,7 @@ function downloadSummary() {
           </svg>
         </span>
         <div class="min-w-0 flex-1">
-          <h3 class="font-heading text-base font-bold text-park-ink">{{ t.podcasts.summaryTitle }}</h3>
+          <h5 class="font-heading text-base font-bold text-park-ink">{{ t.podcasts.summaryTitle }}</h5>
           <p class="text-sm text-park-ink/60">{{ t.podcasts.summaryDesc }}</p>
         </div>
         <div class="flex flex-wrap gap-3">
@@ -162,6 +196,7 @@ function downloadSummary() {
             class="audio-element"
             @play="onPlay"
             @pause="onPause"
+            @error="onAudioError"
           />
         </div>
         <button class="audio-close" :aria-label="t.podcasts.closePlayerAria" @click="closePlayer">✕</button>

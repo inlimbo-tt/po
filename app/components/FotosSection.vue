@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { photos } from '~/data/content'
 import { useT } from '~/i18n/ui'
 
@@ -7,6 +7,8 @@ const t = useT()
 
 const activeIndex = ref(0)
 const zoomed = ref(false)
+const zoomTrigger = ref<HTMLButtonElement | null>(null)
+const zoomCloseButton = ref<HTMLButtonElement | null>(null)
 let touchStartX = 0
 
 function prev() {
@@ -18,7 +20,13 @@ function next() {
 }
 
 function toggleZoom() {
-  zoomed.value = !zoomed.value
+  zoomed.value = true
+  nextTick(() => zoomCloseButton.value?.focus())
+}
+
+function closeZoom() {
+  zoomed.value = false
+  nextTick(() => zoomTrigger.value?.focus())
 }
 
 function onTouchStart(e: TouchEvent) {
@@ -33,7 +41,12 @@ function onTouchEnd(e: TouchEvent) {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') zoomed.value = false
+  if (e.key === 'Escape' && zoomed.value) closeZoom()
+  if (e.key === 'Tab' && zoomed.value) {
+    e.preventDefault()
+    zoomCloseButton.value?.focus()
+    return
+  }
   if (e.key === 'ArrowLeft') prev()
   if (e.key === 'ArrowRight') next()
 }
@@ -62,6 +75,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           type="button"
           class="block w-full cursor-zoom-in overflow-hidden rounded-2xl"
           :aria-label="t.fotos.zoomAria"
+          ref="zoomTrigger"
           @click="toggleZoom"
         >
           <img
@@ -95,7 +109,23 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       </div>
     </div>
 
-    <div v-if="zoomed" class="photo-lightbox" @click="zoomed = false">
+    <div
+      v-if="zoomed"
+      class="photo-lightbox"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t.fotos.title"
+      @click.self="closeZoom"
+    >
+      <button
+        ref="zoomCloseButton"
+        type="button"
+        class="photo-lightbox-close"
+        :aria-label="t.fotos.closeZoom"
+        @click="closeZoom"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
       <img :src="useAsset(photos[activeIndex])" :alt="t.fotos.altTemplate(activeIndex + 1)">
     </div>
   </section>
@@ -111,7 +141,26 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  cursor: zoom-out;
+}
+
+.photo-lightbox-close {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top, 0px) + 0.5rem);
+  right: max(1rem, env(safe-area-inset-right, 0px) + 0.5rem);
+  display: flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.photo-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.26);
 }
 
 .photo-lightbox img {

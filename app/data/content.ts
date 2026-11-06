@@ -86,6 +86,14 @@ const heroTilesNl: HeroTile[] = [
     image: photoPath(11),
     color: '#16281f',
   },
+  {
+    id: 'bezoek',
+    pill: 'VISIT',
+    title: 'Bezoek het park',
+    description: 'Adres en openingsuren.',
+    image: photoPath(8),
+    color: '#2f6b4a',
+  },
 ]
 
 const heroTilesFr: Record<string, { title: string; description: string }> = {
@@ -108,6 +116,10 @@ const heroTilesFr: Record<string, { title: string; description: string }> = {
   media: {
     title: 'Presse',
     description: "Suivez l'histoire du parc dans la presse et sur les réseaux sociaux.",
+  },
+  bezoek: {
+    title: 'Visiter le parc',
+    description: 'Adresse et horaires.',
   },
 }
 
@@ -187,7 +199,7 @@ const podcastEpisodesNl: PodcastEpisode[] = [
   {
     id: 'ep2',
     title: 'Seuil et Limites',
-    description: 'Hekken, heuvels, deuren en ramen: Hoe open moet het park zijn?.',
+    description: 'Hekken, heuvels, deuren en ramen: hoe open moet het park zijn?',
     duration: '52 min',
     audioUrl: '/audio/episode-2.mp3',
   },
@@ -201,7 +213,7 @@ const podcastEpisodesNl: PodcastEpisode[] = [
   {
     id: 'ep5',
     title: 'A Place for Others',
-    description: 'Beschrijving volgt.',
+    description: '',
     duration: '1u 25 min',
     audioUrl: '/audio/episode-5.mp3',
   },
@@ -213,7 +225,7 @@ const podcastEpisodesFr: Record<string, { description: string; duration: string 
     duration: '28 min',
   },
   ep2: {
-    description: "Clôtures, collines, portes et fenêtres : à quel point le parc doit-il être ouvert ?",
+    description: 'Clôtures, collines, portes et fenêtres : à quel point le parc doit-il être ouvert ?',
     duration: '52 min',
   },
   ep3: {
@@ -221,7 +233,7 @@ const podcastEpisodesFr: Record<string, { description: string; duration: string 
     duration: '1h 13 min',
   },
   ep5: {
-    description: 'Description à venir.',
+    description: '',
     duration: '1h 25 min',
   },
 }

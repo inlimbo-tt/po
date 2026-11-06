@@ -21,6 +21,8 @@ const totalPages = ref(0)
 const progressPercent = ref(0)
 const bookRef = ref<HTMLElement | null>(null)
 const modalRef = ref<HTMLElement | null>(null)
+const closeButtonRef = ref<HTMLButtonElement | null>(null)
+const previousFocus = ref<HTMLElement | null>(null)
 let pageFlip: PageFlip | null = null
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
@@ -144,10 +146,43 @@ function nextPage() {
   pageFlip?.flipNext()
 }
 
-onMounted(renderPdf)
+function onModalKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    event.stopPropagation()
+    emit('close')
+    return
+  }
+  if (event.key !== 'Tab' || !modalRef.value) return
+
+  const focusable = [...modalRef.value.querySelectorAll<HTMLElement>(
+    'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+  )].filter(element => element.getClientRects().length > 0)
+  if (focusable.length === 0) {
+    event.preventDefault()
+    modalRef.value.focus()
+    return
+  }
+
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault()
+    last.focus()
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault()
+    first.focus()
+  }
+}
+
+onMounted(() => {
+  previousFocus.value = document.activeElement instanceof HTMLElement ? document.activeElement : null
+  nextTick(() => closeButtonRef.value?.focus())
+  renderPdf()
+})
 
 onUnmounted(() => {
   pageFlip?.destroy()
+  previousFocus.value?.focus()
 })
 
 watch(() => props.pdfUrl, renderPdf)
@@ -155,10 +190,18 @@ watch(() => props.pdfUrl, renderPdf)
 
 <template>
   <div class="zine-overlay" @click.self="emit('close')">
-    <div class="zine-modal">
+    <div
+      ref="modalRef"
+      class="zine-modal"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="title"
+      tabindex="-1"
+      @keydown="onModalKeydown"
+    >
       <header class="zine-header">
         <h3>{{ title }}</h3>
-        <button class="close-btn" :aria-label="t.pdfViewer.closeAria" @click="emit('close')">✕</button>
+        <button ref="closeButtonRef" type="button" class="close-btn" :aria-label="t.pdfViewer.closeAria" @click="emit('close')">✕</button>
       </header>
 
       <div v-if="loading" class="zine-status">

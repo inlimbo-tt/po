@@ -10,7 +10,8 @@ const heroTiles = computed(() => getHeroTiles(locale.value))
 const logoUrl = useAsset('/tiles/parkouest_logo.png')
 
 function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  document.getElementById(id)?.scrollIntoView({ behavior, block: 'start' })
 }
 
 function handleTileClick(event: MouseEvent, id: string) {
@@ -19,11 +20,12 @@ function handleTileClick(event: MouseEvent, id: string) {
 }
 
 const spanClasses: Record<string, string> = {
-  publications: 'lg:col-span-3',
-  'park-in-cijfers': 'lg:col-span-3',
+  publications: 'lg:col-span-2',
+  'park-in-cijfers': 'lg:col-span-2',
   'park-in-evolutie': 'lg:col-span-2',
   fotos: 'lg:col-span-2',
   media: 'lg:col-span-2',
+  bezoek: 'lg:col-span-2',
 }
 
 // Some tile colors (amber, light green) are too light for white text to
@@ -38,16 +40,16 @@ function isLightTile(hex: string): boolean {
 </script>
 
 <template>
-  <section class="relative mx-auto max-w-6xl px-4 pt-10 pb-4 sm:px-6 sm:pt-14 lg:px-8">
+  <section class="relative mx-auto max-w-6xl px-4 pt-5 pb-4 sm:px-6 sm:pt-10 lg:px-8">
     <div
       class="pointer-events-none absolute inset-0 rounded-[2.5rem]"
       style="background: rgba(18, 46, 35, 0.14);"
       aria-hidden="true"
     />
 
-    <div v-reveal class="relative py-10 text-center sm:py-14">
+    <div v-reveal class="relative py-5 text-center sm:py-10">
       <h1 class="flex justify-center">
-        <div class="hero-title-backdrop w-4/5 px-[6%] py-[7%] max-sm:px-[12%] max-sm:py-[14%]">
+        <div class="hero-title-backdrop w-4/5 px-[6%] py-[5%] max-sm:px-[12%] max-sm:py-[9%]">
           <div
             class="mx-auto aspect-[3508/869] w-full bg-park-green-dark"
             :style="`-webkit-mask-image: url('${logoUrl}'); mask-image: url('${logoUrl}'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;`"
@@ -57,25 +59,35 @@ function isLightTile(hex: string): boolean {
         </div>
       </h1>
 
-      <div class="hero-tagline-backdrop mx-auto mt-6 max-w-xl px-6 py-4 sm:px-8 sm:py-5">
-        <p class="text-balance font-heading text-base text-park-ink sm:text-lg">
+      <div class="hero-tagline-backdrop mx-auto mt-4 max-w-xl px-5 py-3 sm:mt-6 sm:px-8 sm:py-5">
+        <p class="text-balance font-body text-sm leading-relaxed tracking-wide text-park-ink/85 sm:text-base">
           {{ t.hero.tagline }}
         </p>
-        <button
-          type="button"
-          class="mt-4 inline-flex items-center gap-2 rounded-full bg-park-amber px-6 py-3 text-sm font-bold text-park-ink shadow-md transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-amber-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
-          @click="scrollToSection('publications')"
-        >
-          {{ t.hero.cta }}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
-            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
+        <div class="mt-3 flex flex-wrap justify-center gap-3 sm:mt-4">
+          <a
+            href="#publications"
+            class="inline-flex min-h-11 items-center gap-2 rounded-full bg-park-amber px-5 py-2.5 text-sm font-bold text-park-ink shadow-md transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:bg-park-amber-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+            @click.prevent="scrollToSection('publications')"
+          >
+            {{ t.hero.cta }}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
+              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a
+            href="#bezoek"
+            class="inline-flex min-h-11 items-center gap-2 rounded-full border border-park-green/20 bg-white/80 px-5 py-2.5 text-sm font-bold text-park-green-dark transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+            @click.prevent="scrollToSection('bezoek')"
+          >
+            {{ t.hero.visitCta }}
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </div>
     </div>
 
     <nav
-      class="relative mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6"
+      class="relative mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6"
       :aria-label="t.nav.ariaLabel"
     >
       <NuxtLink

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { getParkInfographic, parkInfographics } from '~/data/content'
 import { useT } from '~/i18n/ui'
 
@@ -9,6 +9,8 @@ const parkInfographic = computed(() => getParkInfographic(locale.value))
 
 const activeIndex = ref(0)
 const zoomed = ref(false)
+const zoomTrigger = ref<HTMLButtonElement | null>(null)
+const zoomCloseButton = ref<HTMLButtonElement | null>(null)
 let touchStartX = 0
 
 function prev() {
@@ -24,7 +26,13 @@ function goTo(i: number) {
 }
 
 function toggleZoom() {
-  zoomed.value = !zoomed.value
+  zoomed.value = true
+  nextTick(() => zoomCloseButton.value?.focus())
+}
+
+function closeZoom() {
+  zoomed.value = false
+  nextTick(() => zoomTrigger.value?.focus())
 }
 
 function onTouchStart(e: TouchEvent) {
@@ -39,7 +47,12 @@ function onTouchEnd(e: TouchEvent) {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') zoomed.value = false
+  if (e.key === 'Escape' && zoomed.value) closeZoom()
+  if (e.key === 'Tab' && zoomed.value) {
+    e.preventDefault()
+    zoomCloseButton.value?.focus()
+    return
+  }
   if (e.key === 'ArrowLeft') prev()
   if (e.key === 'ArrowRight') next()
 }
@@ -62,6 +75,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         <div class="relative">
           <button
             type="button"
+            ref="zoomTrigger"
             class="flex h-[55vh] w-full max-h-[560px] cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl bg-park-cream"
             :aria-label="t.parkInCijfers.zoomAria"
             @click="toggleZoom"
@@ -107,7 +121,23 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       </div>
     </div>
 
-    <div v-if="zoomed" class="infographic-lightbox" @click="zoomed = false">
+    <div
+      v-if="zoomed"
+      class="infographic-lightbox"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="parkInfographic.title"
+      @click.self="closeZoom"
+    >
+      <button
+        ref="zoomCloseButton"
+        type="button"
+        class="infographic-lightbox-close"
+        :aria-label="t.parkInCijfers.closeZoom"
+        @click="closeZoom"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
       <img :src="useAsset(parkInfographics[activeIndex])" :alt="t.parkInCijfers.altTemplate(activeIndex + 1)">
     </div>
   </section>
@@ -123,7 +153,26 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  cursor: zoom-out;
+}
+
+.infographic-lightbox-close {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top, 0px) + 0.5rem);
+  right: max(1rem, env(safe-area-inset-right, 0px) + 0.5rem);
+  display: flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.infographic-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.26);
 }
 
 .infographic-lightbox img {

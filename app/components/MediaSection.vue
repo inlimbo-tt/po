@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { mediaItems } from '~/data/content'
 import { useT } from '~/i18n/ui'
 
 const t = useT()
+const query = ref('')
+const filteredMediaItems = computed(() => {
+  const search = query.value.trim().toLocaleLowerCase()
+  if (!search) return mediaItems
+  return mediaItems.filter(item =>
+    `${item.title} ${item.source}`.toLocaleLowerCase().includes(search),
+  )
+})
 // Alternates between the two semantic accents (identity green / listen-read-act amber)
 // so publisher tags add rhythm without introducing off-palette hues.
 const accentColors = ['#2f6b4a', '#9c631a']
@@ -16,9 +25,19 @@ const accentColors = ['#2f6b4a', '#9c631a']
         {{ t.media.lead }}
       </p>
 
+      <label class="mb-5 block max-w-xl">
+        <span class="mb-2 block text-sm font-bold text-park-ink">{{ t.media.searchLabel }}</span>
+        <input
+          v-model="query"
+          type="search"
+          :placeholder="t.media.searchPlaceholder"
+          class="min-h-12 w-full rounded-2xl border border-park-ink/15 bg-white px-4 text-base text-park-ink shadow-sm placeholder:text-park-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-park-green"
+        >
+      </label>
+
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <a
-          v-for="(item, i) in mediaItems"
+          v-for="(item, i) in filteredMediaItems"
           :key="item.id"
           :href="item.url"
           target="_blank"
@@ -46,6 +65,9 @@ const accentColors = ['#2f6b4a', '#9c631a']
           </div>
         </a>
       </div>
+      <p v-if="filteredMediaItems.length === 0" class="rounded-2xl bg-white/80 p-5 text-park-ink/75" role="status">
+        {{ t.media.noResults }}
+      </p>
     </div>
   </section>
 </template>
