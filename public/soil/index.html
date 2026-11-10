@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>Parc Ouest — plan assemblé</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      color: #23332d;
+      background: #f4f3ed;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * { box-sizing: border-box; }
+
+    body { margin: 0; }
+
+    main {
+      width: min(1600px, 100%);
+      margin: 0 auto;
+      padding: 34px clamp(18px, 4vw, 64px) 24px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 22px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #718477;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1;
+    }
+
+    .sheet-note {
+      margin: 0 0 5px;
+      color: #748078;
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-align: right;
+    }
+
+    .map-frame {
+      overflow: auto;
+      border: 1px solid #dfe1d8;
+      border-radius: 4px;
+      background: #ecefe8;
+      scrollbar-color: #9baa9c #e9ebe5;
+      scrollbar-width: thin;
+    }
+
+    .map-art {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .map-stage {
+      position: relative;
+      width: 3000px;
+      max-width: none;
+      isolation: isolate;
+    }
+
+    .hotspots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      z-index: 1;
+      top: var(--y);
+      left: var(--x);
+      pointer-events: auto;
+    }
+
+    .hotspot:hover,
+    .hotspot:focus-within,
+    .hotspot.is-open {
+      z-index: 5;
+    }
+
+    .marker {
+      display: grid;
+      width: 43px;
+      height: 43px;
+      min-width: 43px;
+      min-height: 43px;
+      place-items: center;
+      padding: 0;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #bf6348;
+      box-shadow: 0 2px 9px #20281f70, 0 0 0 2px #bf6348;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+    }
+
+    .marker:hover,
+    .marker[aria-expanded="true"] {
+      background: #964a34;
+      box-shadow: 0 2px 12px #20281f88, 0 0 0 4px #bf634855;
+    }
+
+    .marker:focus-visible {
+      outline: 3px solid #243b30;
+      outline-offset: 4px;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 20;
+      top: var(--popup-top, 12px);
+      left: var(--popup-left, 12px);
+      width: min(292px, calc(100vw - 56px));
+      max-height: calc(100vh - 24px);
+      overflow: auto;
+      border: 1px solid #e0e2d9;
+      border-radius: 6px;
+      background: #fffefa;
+      box-shadow: 0 12px 35px #1f302b36;
+      color: #293a31;
+    }
+
+    .hotspot:hover:not(.is-dismissed) .popup,
+    .hotspot:focus-within:not(.is-dismissed) .popup,
+    .hotspot.is-open .popup {
+      display: block;
+    }
+
+    .popup img {
+      display: block;
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+      background: #e6e9e1;
+    }
+
+    .popup-content {
+      padding: 13px 15px 14px;
+    }
+
+    .popup-kicker {
+      margin: 0 0 6px;
+      color: #7d897f;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .popup h2 {
+      margin: 0 26px 7px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .popup p {
+      margin: 0;
+      color: #58665c;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .popup-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      color: #98513d;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .popup-link:hover { color: #663b2d; }
+
+    .popup-close {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      display: grid;
+      width: 29px;
+      height: 29px;
+      min-width: 29px;
+      min-height: 29px;
+      place-items: center;
+      padding: 0;
+      border: 1px solid #e1e2db;
+      border-radius: 50%;
+      background: #fffefa;
+      color: #405047;
+      font-size: 17px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .map-note {
+      margin: 0 0 12px;
+      color: #69756c;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 0;
+      color: #69756c;
+      font-size: 12px;
+    }
+
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    button {
+      min-width: 34px;
+      min-height: 32px;
+      padding: 5px 10px;
+      border: 1px solid #d9ddd4;
+      border-radius: 3px;
+      background: #fafaf7;
+      color: #36493e;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:hover { background: #e9eee7; }
+    button:focus-visible { outline: 2px solid #718477; outline-offset: 2px; }
+
+    #zoom-value {
+      min-width: 44px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 13px;
+      border-top: 1px solid #dedfd6;
+      color: #818a81;
+      font-size: 10px;
+      letter-spacing: .06em;
+    }
+
+    @media (max-width: 650px) {
+      main { padding-top: 24px; }
+      header { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .sheet-note { text-align: left; }
+      .map-stage { width: 1800px; }
+      .popup { width: min(270px, calc(100vw - 48px)); }
+      .marker {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+      }
+      .popup img { height: 128px; }
+      .popup-content { padding: 11px 12px 12px; }
+      .controls { align-items: flex-start; flex-direction: column; }
+      footer { font-size: 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">Plans de synthèse</p>
+        <h1>Parc Ouest</h1>
+      </div>
+      <p class="sheet-note">Pages 1 + 2 · plan original assemblé</p>
+    </header>
+
+    <p class="map-note">Survolez ou sélectionnez un repère. Les photos et textes viennent du livret Parc Ouest / Park West 2024 : ils documentent des usages et propositions, pas nécessairement les équipements prévus sur ce plan.</p>
+    <section class="map-frame" aria-label="Plan original du parc avec dix repères documentés">
+      <div class="map-stage">
+        <svg class="map-art" viewBox="0 45 7663 1270" role="img" aria-labelledby="map-title map-desc">
+          <title id="map-title">Parc Ouest — plan original, pages 1 et 2 assemblées</title>
+          <desc id="map-desc">Les deux pages du plan PDF sont jointes de gauche à droite et recadrées autour du parc. Dix repères ouvrent des photos et des extraits documentés dans le livret de 2024.</desc>
+          <defs>
+            <clipPath id="west-park">
+              <path d="M150 350 C1500 330 3000 265 4263 250 L4263 1300 L170 1300 C150 1150 165 1010 150 900 C140 760 145 570 150 350Z"/>
+            </clipPath>
+            <clipPath id="east-park">
+              <path d="M4263 250 C5350 220 6500 85 7380 50 C7395 450 7405 900 7440 1230 L7350 1300 L4263 1300Z"/>
+            </clipPath>
+          </defs>
+          <image href="park-map-west.jpg" x="0" y="0" width="4263" height="1400" clip-path="url(#west-park)"/>
+          <image href="park-map-east.jpg" x="4263" y="0" width="3400" height="1400" clip-path="url(#east-park)"/>
+        </svg>
+
+        <div class="hotspots" role="group" aria-label="Repères du plan">
+          <article class="hotspot hotspot--left hotspot--above" style="--x:48.3%;--y:75.2%">
+            <button class="marker" type="button" aria-label="01 Le pavillon existant" aria-controls="popup-01" aria-expanded="false">01</button>
+            <div class="popup" id="popup-01">
+              <img src="map-photos/pavillon.jpg" alt="Terrasse du pavillon, avec une personne assise dehors">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 102</p>
+                <h2>Le pavillon existant</h2>
+                <p>Le livret décrit le pavillon comme un espace commun, avec kitchenette, eau et toilettes accessibles. Il est présenté comme un lieu d’accueil et de rencontre.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=52" target="_blank" rel="noopener">Lire les pages 102–103 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--above" style="--x:75.6%;--y:85.5%">
+            <button class="marker" type="button" aria-label="02 La dalle héritage" aria-controls="popup-02" aria-expanded="false">02</button>
+            <div class="popup" id="popup-02">
+              <img src="map-photos/assises.jpg" alt="Des personnes installent un auvent dans le parc">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 114</p>
+                <h2>La dalle héritage</h2>
+                <p>Le livret décrit des assises variées, des bancs construits ou récupérés aux tables de pique-nique, et explique l’intérêt de lieux ombragés et abrités.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=58" target="_blank" rel="noopener">Lire les pages 114–115 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--right hotspot--below" style="--x:12.4%;--y:48.0%">
+            <button class="marker" type="button" aria-label="03 Les poches de régénération spontanée" aria-controls="popup-03" aria-expanded="false">03</button>
+            <div class="popup" id="popup-03">
+              <img src="map-photos/nature.jpg" alt="Renard photographié de nuit dans une zone végétalisée">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 124</p>
+                <h2>Les poches de régénération spontanée</h2>
+                <p>Le livret propose de protéger des îlots naturels dans le parc pour favoriser la faune et la flore, et permettre aux visiteur·euse·s de les observer.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=63" target="_blank" rel="noopener">Lire les pages 124–125 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--right hotspot--above" style="--x:28.7%;--y:51.0%">
+            <button class="marker" type="button" aria-label="04 Le bois et sa micro-vallée" aria-controls="popup-04" aria-expanded="false">04</button>
+            <div class="popup" id="popup-04">
+              <img src="map-photos/flore.jpg" alt="Atelier d’identification des plantes sauvages du parc">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 122</p>
+                <h2>Le bois et sa micro-vallée</h2>
+                <p>Un atelier mené avec Cinéma Nova en 2023 a identifié et répertorié les plantes présentes sur le site. La photo montre cette démarche d’observation.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=62" target="_blank" rel="noopener">Lire les pages 122–123 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--below" style="--x:64.8%;--y:41.7%">
+            <button class="marker" type="button" aria-label="05 Terrain de jeu de construction" aria-controls="popup-05" aria-expanded="false">05</button>
+            <div class="popup" id="popup-05">
+              <img src="map-photos/jeu-construction.jpg" alt="Enfants jouent sur un bateau aménagé en structure de jeu">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 138</p>
+                <h2>Terrain de jeu de construction</h2>
+                <p>Le livret raconte des jeux de construction libre et des éléments ludiques fabriqués à partir d’objets réemployés, dont un bateau devenu jeu apprécié des enfants.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=70" target="_blank" rel="noopener">Lire les pages 138–139 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--above" style="--x:59.5%;--y:47.6%">
+            <button class="marker" type="button" aria-label="06 Les collines pour jouer" aria-controls="popup-06" aria-expanded="false">06</button>
+            <div class="popup" id="popup-06">
+              <img src="map-photos/collines.jpg" alt="Enfants jouent sur les collines de terre du parc">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 140</p>
+                <h2>Les collines pour jouer</h2>
+                <p>Le livret raconte la création de collines avec de la terre venue du parc Duden. Les enfants s’en sont servis pour courir, planter des drapeaux et creuser des tunnels.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=71" target="_blank" rel="noopener">Lire les pages 140–141 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--below" style="--x:78.5%;--y:51.6%">
+            <button class="marker" type="button" aria-label="07 La dalle fragmentée" aria-controls="popup-07" aria-expanded="false">07</button>
+            <div class="popup" id="popup-07">
+              <img src="map-photos/eau.jpg" alt="Grande flaque temporaire sur une surface pavée du parc">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 146</p>
+                <h2>La dalle fragmentée</h2>
+                <p>Le livret décrit les flaques qui se forment sur les surfaces pavées après la pluie, et les éléments qui permettent aux enfants de sauter d’un îlot à l’autre.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=74" target="_blank" rel="noopener">Lire les pages 146–147 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--above" style="--x:80.4%;--y:33.5%">
+            <button class="marker" type="button" aria-label="08 La dalle équipée" aria-controls="popup-08" aria-expanded="false">08</button>
+            <div class="popup" id="popup-08">
+              <img src="map-photos/basket.jpg" alt="Une jeune joue au basket sur un terrain extérieur">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 152</p>
+                <h2>La dalle équipée</h2>
+                <p>Le livret documente un terrain de basket utilisé par les visiteur·euse·s et issu d’échanges avec Girls Play the City. Cette photo illustre l’usage décrit.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=77" target="_blank" rel="noopener">Lire les pages 152–153 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--right hotspot--below" style="--x:34.0%;--y:14.6%">
+            <button class="marker" type="button" aria-label="09 La piste cyclo-piétonne" aria-controls="popup-09" aria-expanded="false">09</button>
+            <div class="popup" id="popup-09">
+              <img src="map-photos/velos.jpg" alt="Deux jeunes circulent à vélo dans le parc">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 156</p>
+                <h2>La piste cyclo-piétonne</h2>
+                <p>Le livret raconte que les enfants et les adolescent·e·s peuvent utiliser gratuitement des vélos dans le parc, et évoque la piste cyclable dans le quartier.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=79" target="_blank" rel="noopener">Lire les pages 156–157 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+
+          <article class="hotspot hotspot--left hotspot--above" style="--x:88.4%;--y:50.0%">
+            <button class="marker" type="button" aria-label="10 La dalle activée" aria-controls="popup-10" aria-expanded="false">10</button>
+            <div class="popup" id="popup-10">
+              <img src="map-photos/sports-roues.jpg" alt="Un jeune fait du vélo sur une surface pavée">
+              <div class="popup-content">
+                <p class="popup-kicker">Livret 2024 · page 158</p>
+                <h2>La dalle activée</h2>
+                <p>Le livret rapporte les échanges avec des collectifs de skate, de patins à roulettes et de vélo autour des usages possibles d’une surface bétonnée.</p>
+                <a class="popup-link" href="../pdfs/key-elements.pdf#page=80" target="_blank" rel="noopener">Lire les pages 158–159 du PDF ↗</a>
+              </div>
+              <button class="popup-close" type="button" aria-label="Fermer le repère">×</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <span>Faites défiler horizontalement pour explorer le plan. Les pastilles s’ouvrent aussi au clic.</span>
+      <div class="zoom-controls" aria-label="Commandes de zoom">
+        <button id="zoom-out" type="button" aria-label="Réduire le plan">−</button>
+        <span id="zoom-value" aria-live="polite">—</span>
+        <button id="zoom-in" type="button" aria-label="Agrandir le plan">+</button>
+        <button id="zoom-fit" type="button">Ajuster</button>
+      </div>
+    </div>
+
+    <footer>
+      <span>PARC OUEST</span>
+      <span>Plan : pages 1–2 · Photos et récits : Parc Ouest / Park West 2024</span>
+    </footer>
+  </main>
+  <script>
+    const frame = document.querySelector(".map-frame");
+    const map = document.querySelector(".map-stage");
+    const value = document.querySelector("#zoom-value");
+    const hotspots = [...document.querySelectorAll(".hotspot")];
+    let zoom = 1;
+
+    function setZoom(nextZoom) {
+      zoom = Math.min(8, Math.max(0.5, nextZoom));
+      map.style.width = `${Math.round(frame.clientWidth * zoom)}px`;
+      value.textContent = `${Math.round(zoom * 100)}%`;
+    }
+
+    document.querySelector("#zoom-in").addEventListener("click", () => setZoom(zoom * 1.25));
+    document.querySelector("#zoom-out").addEventListener("click", () => setZoom(zoom / 1.25));
+    document.querySelector("#zoom-fit").addEventListener("click", () => setZoom(1));
+
+    function closeHotspots() {
+      for (const hotspot of hotspots) {
+        hotspot.classList.remove("is-open");
+        hotspot.querySelector(".marker").setAttribute("aria-expanded", "false");
+        if (hotspot.contains(document.activeElement)) hotspot.classList.add("is-dismissed");
+      }
+    }
+
+    function positionPopup(hotspot) {
+      const markerRect = hotspot.querySelector(".marker").getBoundingClientRect();
+      const popup = hotspot.querySelector(".popup");
+      const popupRect = popup.getBoundingClientRect();
+      const margin = 12;
+      const gap = 12;
+      const width = popupRect.width;
+      const height = popupRect.height;
+      const preferLeft = hotspot.classList.contains("hotspot--left");
+      const preferAbove = hotspot.classList.contains("hotspot--above");
+      let left = preferLeft ? markerRect.left - width - gap : markerRect.right + gap;
+      let top = preferAbove ? markerRect.top - height - gap : markerRect.bottom + gap;
+
+      if (left < margin || left + width > window.innerWidth - margin) {
+        left = preferLeft ? markerRect.right + gap : markerRect.left - width - gap;
+      }
+      if (left < margin || left + width > window.innerWidth - margin) {
+        left = Math.max(margin, Math.min(left, window.innerWidth - width - margin));
+      }
+
+      if (top < margin || top + height > window.innerHeight - margin) {
+        top = preferAbove ? markerRect.bottom + gap : markerRect.top - height - gap;
+      }
+      top = Math.max(margin, Math.min(top, window.innerHeight - height - margin));
+
+      popup.style.setProperty("--popup-left", `${left}px`);
+      popup.style.setProperty("--popup-top", `${top}px`);
+    }
+
+    for (const hotspot of hotspots) {
+      const marker = hotspot.querySelector(".marker");
+      hotspot.addEventListener("mouseenter", () => {
+        closeHotspots();
+        hotspot.classList.remove("is-dismissed");
+        positionPopup(hotspot);
+      });
+      hotspot.addEventListener("focusin", () => {
+        closeHotspots();
+        hotspot.classList.remove("is-dismissed");
+        positionPopup(hotspot);
+      });
+      marker.addEventListener("click", () => {
+        const opening = !hotspot.classList.contains("is-open");
+        closeHotspots();
+        hotspot.classList.remove("is-dismissed");
+        hotspot.classList.toggle("is-open", opening);
+        marker.setAttribute("aria-expanded", String(opening));
+        if (opening) positionPopup(hotspot);
+      });
+
+      hotspot.querySelector(".popup-close").addEventListener("click", () => {
+        closeHotspots();
+        marker.focus();
+        hotspot.classList.add("is-dismissed");
+      });
+
+      hotspot.addEventListener("focusout", event => {
+        if (!hotspot.contains(event.relatedTarget)) hotspot.classList.remove("is-dismissed");
+      });
+    }
+
+    function repositionVisiblePopups() {
+      for (const hotspot of hotspots) {
+        if (hotspot.classList.contains("is-open") || hotspot.matches(":hover, :focus-within")) {
+          positionPopup(hotspot);
+        }
+      }
+    }
+
+    frame.addEventListener("scroll", repositionVisiblePopups);
+    window.addEventListener("scroll", repositionVisiblePopups);
+
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".hotspot")) closeHotspots();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeHotspots();
+    });
+
+    const initialZoom = window.matchMedia("(max-width: 650px)").matches ? 5 : 2;
+    setZoom(initialZoom);
+    window.addEventListener("resize", () => {
+      setZoom(zoom);
+      repositionVisiblePopups();
+    });
+  </script>
+</body>
+</html>
